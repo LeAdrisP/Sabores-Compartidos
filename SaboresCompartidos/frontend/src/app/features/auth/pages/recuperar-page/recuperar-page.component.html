@@ -1,0 +1,51 @@
+<div class="screen-login">
+  
+    <!-- HERO BANNER (Se mantiene idéntico para consistencia visual) -->
+    <div class="login-hero">
+      <div class="login-hero-text">
+        <h1>Sabores<br>compartidos</h1>
+        <p>Un recetario hecho entre todos</p>
+      </div>
+    </div>
+  
+    <!-- FORMULARIO DE RECUPERACIÓN -->
+    <div class="login-form">
+      <h2>Recuperar contraseña</h2>
+      <p class="subtitle">Introduce tu correo para restablecer tu contraseña.</p>
+      
+      <!-- Input Correo -->
+      <div class="field-group">
+        <label class="field-label">Correo electrónico</label>
+        <input class="field-input" type="email" placeholder="tu@correo.com" />
+      </div>
+      
+      <!-- Botón Principal de Envío -->
+      <button class="btn-primary" (click)="enviarCodigo()">Enviar codigo de verificación</button>
+      
+      <!-- Contador de Reenvío -->
+      <p class="counter-text">Reenviar el codigo: <span class="highlight">60s</span></p>
+      
+      <!-- Sección de Código de Verificación -->
+      <div class="verification-zone">
+        <p class="verification-instruction">
+          Por favor introduzca el código que fue enviado a su correo electronico.
+        </p>
+        
+        <!-- Bloque de 6 Inputs Independientes -->
+        <div class="code-inputs-container">
+          <input type="text" maxLength="1" class="code-input" value="1" />
+          <input type="text" maxLength="1" class="code-input" value="2" />
+          <input type="text" maxLength="1" class="code-input" value="3" />
+          <input type="text" maxLength="1" class="code-input" value="4" />
+          <input type="text" maxLength="1" class="code-input" value="5" />
+          <input type="text" maxLength="1" class="code-input" value="6" />
+        </div>
+      </div>
+  
+      <!-- Enlace para volver -->
+      <div class="switch-auth">
+        ¿Recordaste tu contraseña? <span (click)="volverAlLogin()">Inicia sesión</span>
+      </div>
+    </div>
+  
+  </div>

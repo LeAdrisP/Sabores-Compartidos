@@ -1,0 +1,83 @@
+<div class="edit-profile-screen-wrapper">
+  <div class="phone-canvas">
+    <div class="screen-edit">
+      
+      <div class="edit-header">
+        <button class="btn-back" (click)="cancelar()">
+          <span class="back-arrow">←</span>
+        </button>
+        <h2>Editar perfil</h2>
+        <button class="btn-save" (click)="guardarPerfil()">Guardar</button>
+      </div>
+
+      <div class="avatar-edit-section">
+        <div class="profile-avatar-circle">
+          AG
+          <div class="camera-badge">■</div>
+        </div>
+        <span class="change-photo-link">Cambiar foto</span>
+      </div>
+
+      <div class="edit-form-body">
+        
+        <div class="section-divider-label">Información personal</div>
+        
+        <div class="field-group">
+          <label class="field-label">Nombre</label>
+          <input class="field-input" type="text" value="Ana García" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Nombre del usuario</label>
+          <input class="field-input" type="text" value="@anag" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Biografía</label>
+          <textarea class="field-textarea">Cocinera apasionada, Amante de la cocina...</textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Ubicación</label>
+          <input class="field-input" type="text" value="Oaxaca, México" />
+        </div>
+
+        <div class="section-divider-label">Cuenta</div>
+
+        <div class="field-group-row">
+          <div class="field-group input-half">
+            <label class="field-label">Correo electrónico</label>
+            <input class="field-input" type="email" value="ana@correo.com" />
+          </div>
+          <button class="btn-action-inline">Confirmar correo</button>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Contraseña actual</label>
+          <input class="field-input" type="password" value="********" />
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <span class="toggle-title">Mantener sesión iniciada</span>
+            <span class="toggle-subtitle">No cerrar al salir de la app</span>
+          </div>
+          <div class="toggle-switch" [class.on]="isSessionActive" (click)="toggleSession()"></div>
+        </div>
+
+        <div class="section-divider-label">Cambiar contraseña</div>
+
+        <div class="field-group">
+          <label class="field-label">Nueva contraseña</label>
+          <input class="field-input" type="password" placeholder="Ingrese la nueva contraseña" />
+        </div>
+
+        <button class="btn-action-full">Enviar código de verificación</button>
+
+      </div>
+
+      <div class="bottom-spacer"></div>
+
+    </div>
+  </div>
+</div>

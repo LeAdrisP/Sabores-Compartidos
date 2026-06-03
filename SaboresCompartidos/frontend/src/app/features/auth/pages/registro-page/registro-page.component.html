@@ -1,0 +1,43 @@
+<div class="screen-login">
+  
+    <div class="login-hero">
+      <div class="login-hero-text">
+        <h1>Sabores<br>compartidos</h1>
+        <p>Un recetario hecho entre todos</p>
+      </div>
+    </div>
+  
+    <div class="login-form">
+      <h2>Bienvenido</h2>
+      <p class="subtitle">Regístrate para continuar</p>
+      
+      <div class="field-group">
+        <label class="field-label">Correo electrónico</label>
+        <input class="field-input" type="email" placeholder="tu@correo.com" />
+      </div>
+      
+      <div class="field-group">
+        <label class="field-label">Contraseña</label>
+        <input class="field-input" type="password" placeholder="****************" />
+      </div>
+  
+      <div class="field-group">
+        <label class="field-label">Confirmar contraseña</label>
+        <input class="field-input" type="password" placeholder="****************" />
+      </div>
+      
+      <div class="remember-row">
+        <div class="remember-check">
+          <div class="check-box" [class.checked]="isRemembered" (click)="toggleRemember()"></div>
+          <label (click)="toggleRemember()">Mantener sesión iniciada</label>
+        </div>
+      </div>
+      
+      <button class="btn-primary" (click)="onRegisterSubmit()">Registrarse</button>
+  
+      <div class="switch-auth">
+        ¿Ya tienes cuenta? <span (click)="volverAlLogin()">Inicia sesión</span>
+      </div>
+    </div>
+  
+  </div>

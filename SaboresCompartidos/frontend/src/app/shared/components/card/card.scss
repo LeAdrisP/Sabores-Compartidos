@@ -1,0 +1,62 @@
+// Estilos para la tarjeta de receta
+.card {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  margin:1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+//  margin-bottom: 0;
+
+  /*Efecto de sombra al pasar el mouse*/
+  transition: 
+    transform 0.25s ease, 
+    box-shadow 0.25s ease; /* Transición suave */
+
+  &:hover {
+    transform: translateY(-4px); /* Eleva la tarjeta un poco hacia arriba */
+    box-shadow: 0 8px 16px rgba(192, 117, 117, 0.15) /*sombra*/
+  }
+
+}
+
+.card-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.card-chip-set {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap:0.5rem;
+  width: auto;
+  height: 2rem;
+  margin-top: 0.5rem;
+}
+
+.imagen-receta{
+  width:100%;
+  height: 200px;
+  object-fit:cover;
+  display: block;
+  margin-left:-16px;
+}
+
+.star-button{
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 1;
+
+  background: rgba(255, 255, 255, 1);
+  border:none;
+  border-radius: 50%;
+  padding: 8px;
+
+  cursor: pointer;
+}

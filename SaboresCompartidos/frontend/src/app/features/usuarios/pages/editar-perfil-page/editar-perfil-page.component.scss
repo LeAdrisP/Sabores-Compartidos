@@ -1,0 +1,312 @@
+// =========================================================================
+// 1. COMPORTAMIENTO MÓVIL POR DEFECTO (Mobile-First / De orilla a orilla)
+// =========================================================================
+
+.edit-profile-screen-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background: #FFFFFF;
+}
+
+.phone-canvas { 
+  width: 100%;
+  height: 100vh;
+  background: #FAF7F2; // --cream
+  overflow-y: auto; 
+  overflow-x: hidden;
+  font-family: 'DM Sans', sans-serif;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen-edit {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #FAF7F2;
+  flex: 1;
+}
+
+// HEADER
+.edit-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border-bottom: 0.5px solid rgba(44, 44, 42, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.btn-back {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #FAF7F2;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .back-arrow { font-size: 18px; color: #2C2C2A; font-weight: 700; }
+  &:active { background: rgba(44, 44, 42, 0.05); }
+}
+
+.edit-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: #2C2C2A;
+  margin-left: 12px;
+  font-weight: 700;
+}
+
+.btn-save {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #C4622D; // --terracota
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  
+  &:active { opacity: 0.7; }
+}
+
+// AVATAR AREA
+.avatar-edit-section {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-avatar-circle {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: #F0D5C5;
+  border: 4px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  color: #8A3E18;
+  font-weight: 700;
+  position: relative;
+}
+
+.camera-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #2C2C2A;
+  border: 2px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+}
+
+.change-photo-link {
+  font-size: 14px;
+  color: #C4622D;
+  font-weight: 700;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+// FORMULARIOS
+.edit-form-body {
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-divider-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8A8880;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 12px 0;
+}
+
+.field-group {
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8A8880;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.field-input {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid rgba(44, 44, 42, 0.2);
+  background: #FFFFFF;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #2C2C2A;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  
+  &:focus { border-color: #C4622D; }
+}
+
+.field-textarea {
+  @extend .field-input;
+  height: 64px;
+  padding: 10px 12px;
+  resize: none;
+}
+
+// FILAS COMPUESTAS (INPUT + BOTÓN AL LADO)
+.field-group-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 14px;
+  width: 100%;
+  
+  .input-half { margin-bottom: 0; flex: 1; }
+}
+
+.btn-action-inline {
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 8px;
+  background: #FAF2E6;
+  border: 1px solid rgba(44, 44, 42, 0.2);
+  color: #2C2C2A;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  
+  &:active { background: #EFE6D8; }
+}
+
+.btn-action-full {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  background: #FAF2E6;
+  border: 1px solid rgba(44, 44, 42, 0.15);
+  color: #2C2C2A;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+  
+  &:active { background: #EFE6D8; }
+}
+
+// SWITCH DE ESTADO (TOGGLE)
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  margin-bottom: 14px;
+}
+
+.toggle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toggle-title { font-size: 13px; font-weight: 700; color: #2C2C2A; }
+.toggle-subtitle { font-size: 11px; color: #8A8880; }
+
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: rgba(44, 44, 42, 0.15);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  
+  &::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #FFFFFF; transition: transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  &.on {
+    background: #C4622D; // --terracota
+    &::after { transform: translateX(20px); }
+  }
+}
+
+.bottom-spacer { height: 100px; }
+
+// =========================================================================
+// 2. ADAPTACIÓN RESPONSIVA PARA COMPUTADORA (min-width: 768px)
+// =========================================================================
+@media (min-width: 768px) {
+  .edit-profile-screen-wrapper {
+    align-items: flex-start;
+    background: #FAF7F2;
+  }
+
+  .phone-canvas {
+    min-height: auto;
+    background: transparent;
+  }
+
+  .screen-edit {
+    background: transparent;
+  }
+
+  // Centrado web de la tarjeta de edición para scroll fluido en PC
+  .edit-header, .avatar-edit-section, .edit-form-body {
+    max-width: 600px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .edit-header {
+    margin-top: 20px;
+    border-radius: 12px 12px 0 0;
+    border: 1px solid rgba(44, 44, 42, 0.08);
+    border-bottom: 0.5px solid rgba(44, 44, 42, 0.12);
+  }
+
+  .avatar-edit-section, .edit-form-body {
+    background: #FFFFFF;
+    border-left: 1px solid rgba(44, 44, 42, 0.08);
+    border-right: 1px solid rgba(44, 44, 42, 0.08);
+  }
+
+  .edit-form-body {
+    padding: 0 40px 32px 40px;
+    border-bottom-left-radius: 12px;
+    border-bottom: 1px solid rgba(44, 44, 42, 0.08);
+  }
+
+  .bottom-spacer { height: 40px; }
+}

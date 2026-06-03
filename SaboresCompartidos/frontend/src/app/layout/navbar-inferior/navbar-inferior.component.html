@@ -1,0 +1,29 @@
+<nav class="bnav">
+  <div class="nav-container">
+    <button class="ni" [class.on]="activeTab === 'inicio'" (click)="setActiveTab('inicio')">
+      <span class="ico">🏠</span>
+      <span class="lbl">Inicio</span>
+    </button>
+
+    <button class="ni" [class.on]="activeTab === 'mis_recetas'" (click)="setActiveTab('mis_recetas')">
+      <span class="ico">📜</span>
+      <span class="lbl">Mis recetas</span>
+    </button>
+
+    <button class="ni" [class.on]="activeTab === 'buscar'" (click)="setActiveTab('buscar')">
+      <span class="ico">🔍</span>
+      <span class="lbl">Buscar</span>
+    </button>
+
+    <button class="ni" [class.on]="activeTab === 'publicar'" (click)="setActiveTab('publicar')">
+      <span class="ico">＋</span>
+      <span class="lbl">Publicar</span>
+    </button>
+
+    <button class="ni" [class.on]="activeTab === 'perfil'" (click)="setActiveTab('perfil')">
+      <span class="ico">👤</span>
+      <span class="lbl">Perfil</span>
+    </button>
+    
+  </div>
+</nav>

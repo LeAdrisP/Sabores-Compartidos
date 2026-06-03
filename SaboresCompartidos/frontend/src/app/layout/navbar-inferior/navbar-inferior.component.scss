@@ -1,0 +1,112 @@
+:root {
+  --cr: #C4622D;
+  --white: #FFFFFF;
+  --wg: #8A8880;
+  --bd: rgba(44, 44, 42, 0.12);
+}
+
+.bnav {
+  background: #FFFFFF;
+  border-top: 0.5px solid rgba(44, 44, 42, 0.12);
+  z-index: 100;
+  font-family: 'DM Sans', sans-serif;
+  
+  // COMPORTAMIENTO MÓVIL POR DEFECTO (Mobile-First)
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  padding-top: 10px;
+
+  .nav-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .ni {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 12px;
+    transition: transform 0.2s ease;
+
+    &:active {
+      transform: scale(0.92);
+    }
+
+    .ico {
+      font-size: 20px;
+    }
+
+    .lbl {
+      font-size: 10px;
+      color: #8A8880;
+    }
+
+    // Estado seleccionado / Activo
+    &.on {
+      .lbl {
+        color: #C4622D;
+        font-weight: 500;
+      }
+      .ico {
+        text-shadow: 0 0 10px rgba(196, 98, 45, 0.2);
+      }
+    }
+  }
+}
+
+// ADAPTACIÓN RESPONSIVA PARA COMPUTADORA / LAPTOP
+@media (min-width: 768px) {
+  .bnav {
+    position: sticky;
+    top: 0;
+    bottom: auto; // Cancela la fijación inferior
+    height: 64px;
+    padding-top: 0;
+    border-top: none;
+    border-bottom: 0.5px solid rgba(44, 44, 42, 0.12);
+    box-shadow: 0 2px 8px rgba(44, 44, 42, 0.04);
+
+    .nav-container {
+      height: 100%;
+      max-width: 1200px;
+      justify-content: flex-end; // Alinea la navegación a la derecha en PC
+      gap: 24px;
+      padding: 0 40px;
+    }
+
+    .ni {
+      flex-direction: row; // Icono y texto alineados horizontalmente en PC
+      gap: 8px;
+      height: 100%;
+      padding: 0 16px;
+      border-bottom: 3px solid transparent; // Línea indicadora inferior para PC
+      border-radius: 0;
+
+      .ico {
+        font-size: 18px;
+      }
+
+      .lbl {
+        font-size: 14px; // Texto un poco más grande en computadoras
+      }
+
+      &.on {
+        border-bottom-color: #C4622D; // Muestra indicador naranja abajo de la pestaña en PC
+        .lbl {
+          color: #C4622D;
+        }
+      }
+    }
+  }
+}
