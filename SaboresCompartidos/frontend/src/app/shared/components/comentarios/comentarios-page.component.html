@@ -1,0 +1,158 @@
+<div class="comments-screen-wrapper">
+  <div class="phone-canvas">
+    <div class="screen-comments">
+      
+      <header class="comments-main-header">
+        <button class="btn-back-orange" (click)="volver()">←</button>
+        <div class="header-titles">
+          <h2>Comentarios</h2>
+          <span class="comments-count">5 comentarios</span>
+        </div>
+      </header>
+
+      <section class="recipe-context-bar">
+        <div class="mini-recipe-thumb"></div>
+        <div class="mini-recipe-info">
+          <h3>Tlayudas oaxaqueñas</h3>
+          <p>por Ana García · ■ 34 · ■ 20 min</p>
+        </div>
+      </section>
+
+      <section class="filters-bar">
+        <div class="pill-filters">
+          <button class="filter-pill active">Recientes</button>
+          <button class="filter-pill">Destacados</button>
+        </div>
+        <div class="sort-selector">
+          <span>Ordenar por</span>
+          <span class="sort-square-icon">■</span>
+        </div>
+      </section>
+
+      <div class="comments-scroll-area">
+        
+        <div class="comment-thread-group">
+          <div class="comment-block author-highlight">
+            <div class="user-avatar bg-peach">AG</div>
+            <div class="comment-bubble-content">
+              <div class="comment-meta">
+                <span class="user-name">Ana García</span>
+                <span class="badge-author-tag">Autora</span>
+                <span class="comment-time">hace 2 días</span>
+              </div>
+              <p class="comment-text">
+                ¡Gracias a todos por sus comentarios! El truco del asiento bien distribuido es clave.
+              </p>
+              <div class="comment-actions-footer">
+                <span class="likes-count"><span class="icon-sq">■</span> 8</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="comment-thread-group">
+          <div class="comment-block">
+            <div class="user-avatar bg-blue">LM</div>
+            <div class="comment-bubble-content">
+              <div class="comment-meta">
+                <span class="user-name">Luis Méndez</span>
+                <span class="comment-time">hace 1 día</span>
+              </div>
+              <p class="comment-text">
+                Las hice ayer y quedaron espectaculares. Agregué un poco de chile de agua y el resultado fue increíble. Definitivamente las haré más seguido.
+              </p>
+              <div class="comment-actions-footer">
+                <span class="likes-count"><span class="icon-sq">■</span> 14</span>
+                <button class="btn-reply-action"><span class="icon-sq">■</span> Responder</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="comment-thread-group">
+          <div class="comment-block">
+            <div class="user-avatar bg-cream-dark">LM</div>
+            <div class="comment-bubble-content">
+              <div class="comment-meta">
+                <span class="user-name">María Rosas</span>
+                <span class="comment-time">hace 20 h</span>
+              </div>
+              <p class="comment-text">
+                ¿Con qué se puede sustituir el asiento si quiero hacerla más ligera?
+              </p>
+              <div class="comment-actions-footer">
+                <span class="likes-count"><span class="icon-sq">■</span> 3</span>
+                <button class="btn-reply-action"><span class="icon-sq">■</span> Responder</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="comment-block nested-reply author-highlight">
+            <div class="user-avatar bg-peach">AG</div>
+            <div class="comment-bubble-content">
+              <div class="comment-meta">
+                <span class="user-name">Ana García</span>
+                <span class="badge-author-tag">Autora</span>
+                <span class="comment-time">hace 12 h</span>
+                <span class="more-options-dots">•••</span>
+              </div>
+              <p class="comment-text">
+                Puedes usar aceite de oliva o mantequilla. No es igual pero queda bien ■
+              </p>
+              <div class="comment-actions-footer">
+                <span class="likes-count"><span class="icon-sq">■</span> 1</span>
+                <button class="btn-reply-action"><span class="icon-sq">■</span> Responder</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="comment-thread-group">
+          <div class="comment-block">
+            <div class="user-avatar bg-pink">C</div>
+            <div class="comment-bubble-content">
+              <div class="comment-meta">
+                <span class="user-name">Carlos P.</span>
+                <span class="comment-time">hace 5 h</span>
+              </div>
+              <p class="comment-text">
+                Probé la receta y quedó deliciosa. Le puse un poco más de sal porque me gusta más intenso. ¡Muy recomendada!
+              </p>
+              <div class="comment-actions-footer">
+                <span class="likes-count"><span class="icon-sq">■</span> 6</span>
+                <button class="btn-reply-action"><span class="icon-sq">■</span> Responder</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="inline-reply-box-container">
+            <div class="user-avatar bg-peach">AG</div>
+            <div class="inline-input-wrapper">
+              <input type="text" placeholder="Responder a Carlos..." />
+            </div>
+            <button class="btn-send-orange">↑</button>
+          </div>
+        </div>
+
+        <div class="comment-thread-group">
+          <div class="comment-deleted-block">
+            <div class="empty-avatar-dash"></div>
+            <div class="deleted-bubble-text">
+              Este comentario fue eliminado por un administrador.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <footer class="main-comment-input-footer">
+        <div class="user-avatar bg-peach">AG</div>
+        <div class="footer-input-wrapper">
+          <input type="text" placeholder="Agrega un comentario....." />
+        </div>
+        <button class="btn-send-gray">↑</button>
+      </footer>
+
+    </div>
+  </div>
+</div>
