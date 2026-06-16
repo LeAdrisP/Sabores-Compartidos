@@ -1,0 +1,14 @@
+mat-form-field {
+  // Color del texto de la opción seleccionada
+  --mdc-filled-text-field-input-text-color: #ffb941;
+  
+  // Color del texto del Label ("Momento del día")
+  --mdc-filled-text-field-label-text-color: #6b5d4f;
+  --mdc-filled-text-field-focus-label-text-color: #2c2416; // Cuando está activo
+
+  // Color de fondo de la caja
+  --mdc-filled-text-field-container-color: #675555; 
+
+  // Flecha del selector (Mat-Select Arrow)
+  --mat-select-arrow-color: #a97315;
+}

@@ -1,0 +1,9 @@
+
+<mat-form-field class="filtro-f">
+  <mat-label>Momento del día</mat-label>
+  <mat-select panelClass="campo">
+    @for (momento of momentos; track momentos) {
+      <mat-option [value]="momento.value">{{momento.viewValue}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>

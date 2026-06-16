@@ -21,6 +21,7 @@ export class NavbarInferiorComponent implements OnInit {
     inicio: '/explorar',
     perfil: '/perfil',
     mis_recetas: '/mis_recetas',
+    publicar:'/editar-receta',
   };
 
   ngOnInit(): void {
@@ -58,6 +59,9 @@ export class NavbarInferiorComponent implements OnInit {
     }
     if (url.includes('/explorar')) {
       this.activeTab = 'inicio';
+    }
+    if(url.includes('./editar-receta')){
+      this.activeTab = 'editar';
     }
   }
 }

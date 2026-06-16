@@ -51,5 +51,13 @@ export const routes: Routes = [
     loadComponent: () => 
       import('./features/recetas/pages/mis-recetas-page/mis-recetas-page.component')
         .then(m => m.MisRecetasPageComponent)
+  },
+  
+  {
+    path: "editar-receta",
+    loadComponent : () =>
+      import('./features/recetas/pages/editar-receta/editar-receta')
+    .then(m => m.EditarReceta)
   }
+
 ];
