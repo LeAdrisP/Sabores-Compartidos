@@ -1,7 +1,7 @@
 <div class="edit-profile-screen-wrapper">
   <div class="phone-canvas">
     <div class="screen-edit">
-      
+
       <div class="edit-header">
         <button class="btn-back" (click)="cancelar()">
           <span class="back-arrow">←</span>
@@ -12,34 +12,42 @@
 
       <div class="avatar-edit-section">
         <div class="profile-avatar-circle">
-          AG
+          {{ iniciales || 'US' }}
           <div class="camera-badge">■</div>
         </div>
         <span class="change-photo-link">Cambiar foto</span>
       </div>
 
       <div class="edit-form-body">
-        
+
         <div class="section-divider-label">Información personal</div>
-        
+
         <div class="field-group">
           <label class="field-label">Nombre</label>
-          <input class="field-input" type="text" value="Ana García" />
+          <input class="field-input" type="text"
+            [(ngModel)]="nombre"
+            placeholder="Ej. Ana García" />
         </div>
 
         <div class="field-group">
           <label class="field-label">Nombre del usuario</label>
-          <input class="field-input" type="text" value="@anag" />
+          <input class="field-input" type="text"
+            [(ngModel)]="username"
+            placeholder="Ej. @anag" />
         </div>
 
         <div class="field-group">
           <label class="field-label">Biografía</label>
-          <textarea class="field-textarea">Cocinera apasionada, Amante de la cocina...</textarea>
+          <textarea class="field-textarea"
+            [(ngModel)]="bio"
+            placeholder="Ej. Amante de la cocina tradicional mexicana..."></textarea>
         </div>
 
         <div class="field-group">
           <label class="field-label">Ubicación</label>
-          <input class="field-input" type="text" value="Oaxaca, México" />
+          <input class="field-input" type="text"
+            [(ngModel)]="ubicacion"
+            placeholder="Ej. Oaxaca, México" />
         </div>
 
         <div class="section-divider-label">Cuenta</div>
@@ -47,14 +55,15 @@
         <div class="field-group-row">
           <div class="field-group input-half">
             <label class="field-label">Correo electrónico</label>
-            <input class="field-input" type="email" value="ana@correo.com" />
+            <input class="field-input" type="email" disabled
+              [value]="''" placeholder="tu@correo.com" />
           </div>
           <button class="btn-action-inline">Confirmar correo</button>
         </div>
 
         <div class="field-group">
           <label class="field-label">Contraseña actual</label>
-          <input class="field-input" type="password" value="********" />
+          <input class="field-input" type="password" placeholder="••••••••" />
         </div>
 
         <div class="toggle-row">

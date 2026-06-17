@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# 👇 Importamos el enrutador modular que procesará el flujo
-from routes.auth_routes import router as auth_router  # ✅
+from routes.auth_routes import router as auth_router
+from routes.usuarios_routes import router as usuarios_router
 
 app = FastAPI(
     title="API de Sabores Compartidos",
@@ -10,7 +10,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configuración de CORS para la comunicación con Angular y ngrok
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,8 +18,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# 👇 REGISTRAMOS EL ROUTER: Activa el prefijo /api/auth de tu arquitectura
 app.include_router(auth_router)
+app.include_router(usuarios_router)  # 👈 ahora sí, después de crear app
 
 @app.get("/")
 def inicio():

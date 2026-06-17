@@ -65,6 +65,7 @@ export const routes: Routes = [
     loadComponent: () => 
       import('./shared/components/comentarios/comentarios-page.component')
         .then(m => m.ComentariosPageComponent)
+  },
   
   {
     path: "editar-receta",

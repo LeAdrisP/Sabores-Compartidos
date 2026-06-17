@@ -64,4 +64,24 @@ def registrar_nuevo_usuario(correo: str, contrasena: str, confirmar_contrasena: 
     except Exception as e:
         print(f"Error al registrar usuario en Firestore: {e}")
         return None
+
+def obtener_usuario_por_id(usuario_id: str) -> dict | None:
+    try:
+        doc = db.collection("usuarios").document(usuario_id).get()
+        if doc.exists:
+            data = doc.to_dict()
+            data["id"] = doc.id
+            return data
+        return None
+    except Exception as e:
+        print(f"Error al obtener usuario: {e}")
+        return None
+
+def actualizar_usuario(usuario_id: str, datos: dict) -> bool:
+    try:
+        db.collection("usuarios").document(usuario_id).update(datos)
+        return True
+    except Exception as e:
+        print(f"Error al actualizar usuario: {e}")
+        return False
     

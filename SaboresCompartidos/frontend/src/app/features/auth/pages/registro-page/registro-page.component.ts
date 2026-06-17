@@ -59,6 +59,8 @@ export class RegistroPageComponent {
     this.http.post(`${this.API_URL}api/auth/registro`, body, { headers }).subscribe({
       next: (response: any) => {
         console.log('¡Firebase guardó al usuario con éxito!', response);
+        localStorage.setItem('usuario_id', response.usuario_id); // 👈
+        localStorage.setItem('correo', this.correo);
         // Te redirige al feed principal ya autenticado
         this.router.navigate(['/login']);
       },

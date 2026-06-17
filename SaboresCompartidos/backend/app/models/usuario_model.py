@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class RegistroUsuario(BaseModel):
     correo: str
@@ -8,3 +9,9 @@ class RegistroUsuario(BaseModel):
 class LoginUsuario(BaseModel):
     correo: str
     contrasena: str
+
+class ActualizarUsuario(BaseModel):
+    nombre: Optional[str] = None
+    username: Optional[str] = None
+    bio: Optional[str] = None
+    ubicacion: Optional[str] = None

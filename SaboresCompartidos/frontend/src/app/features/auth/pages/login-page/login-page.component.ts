@@ -40,6 +40,8 @@ export class LoginPageComponent {
     this.http.post(`${this.API_URL}api/auth/login`, body, { headers }).subscribe({
       next: (response: any) => {
         console.log('Login exitoso', response);
+        localStorage.setItem('usuario_id', response.usuario_id); // 👈 guardamos el ID
+        localStorage.setItem('correo', this.correo);             // 👈 opcional pero útil
         this.router.navigate(['/explorar']);
       },
       error: (err) => {
