@@ -5,17 +5,16 @@
   </header>
  
   <div class="opciones">
-  <!--Opciones de filtro-->
     <mat-button-toggle-group class="btn-tgl-gp" aria-label="Filtro de tendencias">
       <mat-button-toggle class="btn-tgl" value="Populares">Populares</mat-button-toggle>
       <mat-button-toggle class="btn-tgl" value="Recientes">Recientes</mat-button-toggle>
       <mat-button-toggle class="btn-tgl" value="Siguiendo">Siguiendo</mat-button-toggle>
     </mat-button-toggle-group>
-</div>
+  </div>
 
   <!--Cuadricula para desplegar tarjetas-->
   <div class="grid">
-    <app-card *ngFor="let card of cards"></app-card>
+    <app-card *ngFor="let card of cards" (click)="verDetalleReceta()"></app-card>
   </div>
 
 </div>

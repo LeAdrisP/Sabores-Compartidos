@@ -31,13 +31,12 @@
 
       <div class="recipes-container-body">
         
-        <div class="recipe-card-featured">
-          <div class="card-img-placeholder" style="background: #FFF3E0;">
-            </div>
+        <div class="recipe-card-featured" (click)="verDetalleReceta()">
+          <div class="card-img-placeholder" style="background: #FFF3E0;"></div>
           <div class="card-content">
             <div class="card-header-row">
               <h3 class="recipe-title">Tlayudas oaxaqueñas</h3>
-              <button class="btn-more-options">•••</button>
+              <button class="btn-more-options" (click)="$event.stopPropagation()">•••</button>
             </div>
             <p class="recipe-author">por <span class="author-name">Ana García</span> · hace 2 días</p>
             <div class="recipe-meta-tags">
@@ -51,7 +50,7 @@
 
         <div class="recipes-secondary-grid">
           
-          <div class="recipe-card-small">
+          <div class="recipe-card-small" (click)="verDetalleReceta()">
             <div class="card-img-placeholder" style="background: #E8F5E9;"></div>
             <div class="card-content">
               <h4 class="recipe-title">Ensalada de nopales</h4>
@@ -62,7 +61,7 @@
             </div>
           </div>
 
-          <div class="recipe-card-small">
+          <div class="recipe-card-small" (click)="verDetalleReceta()">
             <div class="card-img-placeholder" style="background: #FFF8E1;"></div>
             <div class="card-content">
               <h4 class="recipe-title">Flan de cajeta</h4>

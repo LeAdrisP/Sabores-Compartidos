@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { Card } from "../../../../shared/components/card/card";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-explorar',
@@ -14,6 +15,8 @@ import { Card } from "../../../../shared/components/card/card";
 })
 export class Explorar implements OnInit{
 //Para probar el diseño, luego se eliminará y se reemplazará por datos reales
+private router = inject(Router);
+
   public cards: Array<any> =[]
 
   ngOnInit(): void {
@@ -33,4 +36,8 @@ export class Explorar implements OnInit{
     ]
   }
 
+  verDetalleReceta(): void {
+    console.log('Abriendo información detallada de la receta...');
+    this.router.navigate(['/detalle-receta']);
+  }
 }

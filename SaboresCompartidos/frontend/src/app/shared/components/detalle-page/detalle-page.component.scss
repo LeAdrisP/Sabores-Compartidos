@@ -1,0 +1,302 @@
+// =========================================================================
+// 1. COMPORTAMIENTO MÓVIL POR DEFECTO (Mobile-First / De orilla a orilla)
+// =========================================================================
+
+.detail-screen-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background: #FFFFFF;
+}
+
+.phone-canvas {
+  width: 100%;
+  min-height: 100vh;
+  background: #FAF7F2; // --cream
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: 'DM Sans', sans-serif;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen-detail {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: #FAF7F2;
+}
+
+// BOTONES FLOTANTES SUPERIORES
+.detail-top-actions {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  
+  // Agrupa los dos botones de la derecha
+  &::after {
+    content: '';
+  }
+  button:nth-child(2) {
+    margin-left: auto;
+    margin-right: 12px;
+  }
+}
+
+.action-circle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #C4622D; // --terracota de tus raíces
+  color: #FFFFFF;
+  border: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s;
+
+  &:active { transform: scale(0.92); }
+  
+  &.font-black {
+    background: #000000;
+  }
+}
+
+// IMAGEN HERO DE RECETA
+.recipe-hero-image-container {
+  width: 100%;
+  height: 240px;
+  background: #EFEBE4;
+}
+
+.recipe-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// CUERPO DE DETALLES
+.detail-content-body {
+  padding: 24px;
+  background: #FAF7F2;
+}
+
+.recipe-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.recipe-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2C2C2A; // --charcoal
+  line-height: 1.2;
+}
+
+.likes-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: #EFEBE4;
+  border: 1px solid rgba(44, 44, 42, 0.2);
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #8A8880;
+
+  .icon-square { color: #000000; font-size: 10px; }
+  .likes-count { color: #2C2C2A; }
+}
+
+.recipe-meta-author {
+  font-size: 13px;
+  color: #8A8880;
+  margin-top: 6px;
+  
+  .author-highlight { color: #C4622D; font-weight: 700; }
+}
+
+// COMPONENTE DE CHIPS (SOBREESCRITURA DE MATERIAL)
+.recipe-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 16px 0;
+
+  .custom-chip {
+    min-height: 28px;
+    border-radius: 12px !important;
+    border: 1px solid rgba(44, 44, 42, 0.2) !important;
+    background: transparent !important;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #8A8880 !important;
+    padding: 0 10px;
+
+    &.accent-bg {
+      background: #FFF3E0 !important;
+      color: #E65100 !important;
+      border-color: transparent !important;
+    }
+
+    .icon-inline { color: #000000; font-size: 11px; margin-right: 4px; }
+  }
+}
+
+.recipe-description {
+  font-size: 14px;
+  color: #8A8880;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.section-divider {
+  border: none;
+  height: 0.5px;
+  background: rgba(44, 44, 42, 0.15);
+  margin: 20px 0;
+}
+
+// SECCIONES (INGREDIENTES Y PREPARACIÓN)
+.recipe-section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: #2C2C2A;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+// LISTA INGREDIENTES
+.ingredients-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  
+  li {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 0.5px solid rgba(44, 44, 42, 0.12);
+    font-size: 14px;
+    color: #2C2C2A;
+    font-weight: 700;
+    
+    &:last-child { border-bottom: none; }
+  }
+
+  .bullet-orange { color: #C4622D; font-size: 18px; margin-right: 12px; }
+  .ingredient-amount { margin-left: auto; color: #8A8880; font-weight: 500; }
+}
+
+// LISTA PREPARACIÓN (PASOS)
+.steps-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #C4622D;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-text {
+    font-size: 14px;
+    color: #2C2C2A;
+    line-height: 1.4;
+    font-weight: 700;
+    margin-top: 3px;
+  }
+}
+
+.bottom-spacer { height: 100px; }
+
+// =========================================================================
+// 2. ADAPTACIÓN RESPONSIVA PARA COMPUTADORA (min-width: 768px)
+// =========================================================================
+@media (min-width: 768px) {
+  .detail-screen-wrapper {
+    align-items: flex-start;
+    background: #FAF7F2;
+  }
+
+  .phone-canvas {
+    min-height: auto;
+    background: transparent;
+  }
+
+  .screen-detail {
+    background: transparent;
+  }
+
+  // Estructura centrada de lectura web en pantallas de monitor grandes
+  .recipe-hero-image-container, .detail-content-body {
+    max-width: 700px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .recipe-hero-image-container {
+    margin-top: 24px;
+    height: 320px;
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  // Posiciona los botones flotantes relativos a la tarjeta en PC
+  .detail-top-actions {
+    max-width: 650px;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 40px;
+  }
+
+  .detail-content-body {
+    background: #FFFFFF;
+    border-left: 1px solid rgba(44, 44, 42, 0.05);
+    border-right: 1px solid rgba(44, 44, 42, 0.05);
+    border-bottom: 1px solid rgba(44, 44, 42, 0.05);
+    border-radius: 0 0 16px 16px;
+    padding: 32px 40px;
+  }
+
+  .bottom-spacer { height: 40px; }
+}

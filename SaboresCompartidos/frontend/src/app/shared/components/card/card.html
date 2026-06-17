@@ -1,35 +1,28 @@
-<!--<p>card works!</p>-->
 <mat-card class="card" appearance="outlined">
 
-    <!--Encabezado de la tarjeta-->
     <mat-card-header class="card-header">
 
-        <!--Botón para marcar como favorito-->
         <mat-card-actions class="card-actions">
             <button matIconButton class="star-button">
                 <mat-icon aria-hidden="false" aria-label="star" fontIcon="star"></mat-icon>
             </button>
         </mat-card-actions>
 
-        <!--Imagen de la receta-->
         <img mat-card-image class="imagen-receta"
             src="https://www.bettycrocker.lat/mx/wp-content/uploads/sites/2/2020/12/BCmexico-recipe-pastel-maravilla-de-chocolate.png"
             alt="Imagen de la receta">
 
     </mat-card-header>
 
-    <!--Contenido de la tarjeta-->
     <mat-card-content class="card-content">
-        <!--Información de la receta-->
         <mat-card-title>Nombre receta</mat-card-title>
         <mat-card-subtitle>Autor de la receta | Hace 2 horas</mat-card-subtitle>
 
-        <!--Información adicional de la receta-->
         <mat-chip-set class="card-chip-set" aria-label="información adicional">
             <mat-chip>
                 Dificultad
             </mat-chip>
-            <mat-chip >
+            <mat-chip>
                 <mat-icon aria-hidden="false" aria-label="star" fontIcon="timer"></mat-icon>
                 3min
             </mat-chip>
@@ -41,17 +34,17 @@
 
     </mat-card-content>
 
-    <!--Pie de la tarjeta-->
     <mat-card-footer class="card-footer">
 
-        <!--Botones de acción del pie de la tarjeta-->
         <mat-card-actions class="card-actions"> 
             <button matIconButton>
                 <mat-icon aria-hidden="false" aria-label="me gusta" fontIcon="favorite"></mat-icon>
             </button>
-            <button matIconButton>
+            
+            <button matIconButton (click)="irAComentarios($event)">
                 <mat-icon aria-hidden="false" aria-label="comentario" fontIcon="comment"></mat-icon>
             </button>
+            
             <button matIconButton>
                 <mat-icon aria-hidden="false" aria-label="compartir" fontIcon="share"></mat-icon>
             </button>

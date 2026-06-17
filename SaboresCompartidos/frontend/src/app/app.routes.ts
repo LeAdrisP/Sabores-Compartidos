@@ -51,5 +51,19 @@ export const routes: Routes = [
     loadComponent: () => 
       import('./features/recetas/pages/mis-recetas-page/mis-recetas-page.component')
         .then(m => m.MisRecetasPageComponent)
+  },
+
+  {
+  path: 'detalle-receta',
+  loadComponent: () => 
+    import('./shared/components/detalle-page/detalle-page.component')
+      .then(m => m.DetallePageComponent)
+  },
+
+  {
+    path: 'comentarios-page',
+    loadComponent: () => 
+      import('./shared/components/comentarios/comentarios-page.component')
+        .then(m => m.ComentariosPageComponent)
   }
 ];

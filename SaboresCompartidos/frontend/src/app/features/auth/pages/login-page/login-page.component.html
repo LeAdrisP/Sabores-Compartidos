@@ -1,7 +1,7 @@
 <div class="login-screen-wrapper">
   <div class="phone-canvas">
     <div class="screen-login">
-      
+
       <div class="login-hero">
         <div class="login-hero-text">
           <h1>Sabores<br>compartidos</h1>
@@ -12,17 +12,23 @@
       <div class="login-form">
         <h2>Bienvenido de vuelta</h2>
         <p class="subtitle">Inicia sesión para continuar</p>
-        
+
+        <div class="error-container" *ngIf="errorMessage" style="color: #C4622D; font-size: 13px; font-weight: 700; margin-bottom: 12px; text-align: center;">
+          {{ errorMessage }}
+        </div>
+
         <div class="field-group">
           <label class="field-label">Correo electrónico</label>
-          <input class="field-input" type="email" placeholder="tu@correo.com" />
+          <input class="field-input" type="email" name="correo"
+            [(ngModel)]="correo" placeholder="tu@correo.com" />
         </div>
-        
+
         <div class="field-group">
           <label class="field-label">Contraseña</label>
-          <input class="field-input" type="password" placeholder="••••••••" />
+          <input class="field-input" type="password" name="contrasena"
+            [(ngModel)]="contrasena" placeholder="••••••••" />
         </div>
-        
+
         <div class="remember-row">
           <div class="remember-check">
             <div class="check-box" [class.checked]="isRemembered" (click)="toggleRemember()"></div>
@@ -30,16 +36,9 @@
           </div>
           <span class="forgot-link" (click)="navigateToRecuperar()">¿Olvidaste?</span>
         </div>
-        
+
         <button class="btn-primary" (click)="onLoginSubmit()">Iniciar sesión</button>
-        
-        <div class="divider"><span>o continúa con</span></div>
-        
-        <button class="btn-social">
-          <span class="google-g">G</span>
-          Continuar con Google
-        </button>
-        
+
         <div class="switch-auth">
           ¿Aún no tienes cuenta? <span (click)="navigateToRegistro()">Regístrate</span>
         </div>

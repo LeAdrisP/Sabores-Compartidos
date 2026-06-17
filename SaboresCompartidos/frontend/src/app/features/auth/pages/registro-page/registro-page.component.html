@@ -10,26 +10,48 @@
     <div class="login-form">
       <h2>Bienvenido</h2>
       <p class="subtitle">Regístrate para continuar</p>
-      
-      <div class="field-group">
-        <label class="field-label">Correo electrónico</label>
-        <input class="field-input" type="email" placeholder="tu@correo.com" />
+
+      <div class="error-container" *ngIf="errorMessage" style="color: #C4622D; font-size: 13px; font-weight: 700; margin-bottom: 12px; text-align: center;">
+        {{ errorMessage }}
       </div>
       
-      <div class="field-group">
-        <label class="field-label">Contraseña</label>
-        <input class="field-input" type="password" placeholder="****************" />
-      </div>
-  
-      <div class="field-group">
-        <label class="field-label">Confirmar contraseña</label>
-        <input class="field-input" type="password" placeholder="****************" />
-      </div>
+        <div class="field-group">
+      <label class="field-label">Correo electrónico</label>
+      <input 
+        class="field-input" 
+        type="email" 
+        name="correo"
+        [(ngModel)]="correo"
+        (input)="correo = $any($event.target).value"
+        placeholder="tu@correo.com" />
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Contraseña</label>
+      <input 
+        class="field-input" 
+        type="password" 
+        name="contrasena"
+        [(ngModel)]="contrasena"
+        (input)="contrasena = $any($event.target).value"
+        placeholder="****************" />
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Confirmar contraseña</label>
+      <input 
+        class="field-input" 
+        type="password" 
+        name="confirmar_contrasena"
+        [(ngModel)]="confirmar_contrasena"
+        (input)="confirmar_contrasena = $any($event.target).value"
+        placeholder="****************" />
+    </div>
       
       <div class="remember-row">
         <div class="remember-check">
           <div class="check-box" [class.checked]="isRemembered" (click)="toggleRemember()"></div>
-          <label (click)="toggleRemember()">Mantener sesión iniciada</label>
+          <label (click)="toggleRemember()" style="cursor: pointer;">Mantener sesión iniciada</label>
         </div>
       </div>
       
@@ -40,4 +62,4 @@
       </div>
     </div>
   
-  </div>
+</div>
