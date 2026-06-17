@@ -2,16 +2,12 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-# Inicializar la app de Firebase Admin usando tus credenciales de proyecto
-# Nota: Recuerda colocar tu archivo 'firebase-credentials.json' descargado de la consola en la raíz.
 try:
     cred = credentials.Certificate("firebase-credentials.json")
     firebase_admin.initialize_app(cred)
 except ValueError:
-    # Evita errores si la app ya fue inicializada en otra sección del backend
     pass
 
-# Instanciar cliente de Firestore
 db = firestore.client()
 
 def buscar_usuario_por_correo(correo: str) -> dict | None: 
@@ -40,23 +36,27 @@ def registrar_nuevo_usuario(correo: str, contrasena: str, confirmar_contrasena: 
     con los campos estructurados exactamente como strings.
     """
     try:
-        # Primero verificamos que el correo no esté registrado previamente
         if buscar_usuario_por_correo(correo) is not None:
             print("El correo ya se encuentra registrado.")
             return {"error": "El usuario ya existe"}
-
-        # Estructura de mapeo exacta solicitada por tu base de datos
+ 
         nuevo_usuario = {
             "correo": str(correo),
             "contrasena": str(contrasena),
-            "confirmarContrasena": str(confirmar_contrasena)
+            "confirmar_contrasena": str(confirmar_contrasena),
+            "nombre": "",
+            "nombre_usuario": "",
+            "biografia": "",
+            "ubicacion": "",
+            "contrasena_actual": "",
+            "nueva_contrasena": "",
+            "recetas": 0,
+            "seguidores": 0,
+            "seguiendo": 0
         }
 
-        # Guardar en la colección 'usuarios'. Firebase generará el ID aleatorio automáticamente
         usuarios_ref = db.collection("usuarios")
         doc_ref = usuarios_ref.add(nuevo_usuario)
-        
-        # Obtenemos el ID asignado (ej: feH9uXrHe0lZ5Ud1XtvC) y lo retornamos junto con los datos
         nuevo_usuario["id"] = doc_ref[1].id
         print(f"Usuario registrado exitosamente en Firebase con ID: {nuevo_usuario['id']}")
         return nuevo_usuario

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class EditarPerfilPageComponent implements OnInit {
   private router = inject(Router);
   private http = inject(HttpClient);
-
+  private cdr = inject(ChangeDetectorRef);
   private readonly API_URL = 'https://remote-boxcar-morbidity.ngrok-free.dev/';
 
   // Campos editables
@@ -37,11 +37,12 @@ export class EditarPerfilPageComponent implements OnInit {
 
     this.http.get(`${this.API_URL}api/usuarios/${usuarioId}`, { headers }).subscribe({
       next: (data: any) => {
-        this.nombre = data.nombre || '';
-        this.username = data.username || '';
-        this.bio = data.bio || '';
-        this.ubicacion = data.ubicacion || '';
-        this.iniciales = this.obtenerIniciales(this.nombre);
+          this.nombre = data.nombre || '';
+          this.username = data.nombre_usuario || ''; 
+          this.bio = data.biografia || '';            
+          this.ubicacion = data.ubicacion || '';
+          this.iniciales = this.obtenerIniciales(this.nombre);
+          this.cdr.detectChanges(); 
       },
       error: () => {
         console.error('No se pudo cargar el perfil');
@@ -65,10 +66,10 @@ export class EditarPerfilPageComponent implements OnInit {
     const headers = new HttpHeaders({ 'ngrok-skip-browser-warning': 'true' });
 
     const body = {
-      nombre: this.nombre,
-      username: this.username,
-      bio: this.bio,
-      ubicacion: this.ubicacion
+        nombre: this.nombre,
+        nombre_usuario: this.username,
+        biografia: this.bio,            
+        ubicacion: this.ubicacion
     };
 
     this.http.put(`${this.API_URL}api/usuarios/${usuarioId}`, body, { headers }).subscribe({

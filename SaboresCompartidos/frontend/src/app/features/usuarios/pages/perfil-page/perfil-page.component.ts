@@ -1,7 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-perfil-page',
@@ -13,10 +14,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class PerfilPageComponent implements OnInit {
   private router = inject(Router);
   private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
 
   private readonly API_URL = 'https://remote-boxcar-morbidity.ngrok-free.dev/';
-
-    // Datos del perfil con valores por defecto para usuario nuevo
+  
   nombre: string = 'Usuario';
   username: string = '@usuario';
   ubicacion: string = '';
@@ -27,6 +28,16 @@ export class PerfilPageComponent implements OnInit {
   siguiendo: number = 0;
 
   ngOnInit(): void {
+    this.cargarPerfil();
+    
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.cargarPerfil();
+    });
+  }
+
+  cargarPerfil(): void {
     const usuarioId = localStorage.getItem('usuario_id');
     if (!usuarioId) {
       this.router.navigate(['/login']);
@@ -34,38 +45,29 @@ export class PerfilPageComponent implements OnInit {
     }
 
     const headers = new HttpHeaders({ 'ngrok-skip-browser-warning': 'true' });
-
+    
     this.http.get(`${this.API_URL}api/usuarios/${usuarioId}`, { headers }).subscribe({
       next: (data: any) => {
-        this.nombre = data.nombre || this.generarNombreAleatorio();
-        this.username = data.username || this.generarUsernameAleatorio();
+        this.nombre = data.nombre || 'Usuario';
+        this.username = data.nombre_usuario || '@usuario';
         this.ubicacion = data.ubicacion || '';
-        this.bio = data.bio || '';
+        this.bio = data.biografia || '';
+        this.recetas = data.recetas || 0;
+        this.seguidores = data.seguidores || 0;
+        this.siguiendo = data.seguiendo || 0;
         this.iniciales = this.obtenerIniciales(this.nombre);
+        this.cdr.detectChanges(); 
       },
       error: () => {
-        // Si falla la carga, dejamos los valores por defecto
-        this.nombre = this.generarNombreAleatorio();
-        this.username = this.generarUsernameAleatorio();
-        this.iniciales = this.obtenerIniciales(this.nombre);
+        console.error('No se pudo cargar el perfil');
       }
     });
   }
 
-  private generarNombreAleatorio(): string {
-    const nombres = ['Chef Nuevo', 'Cocinero Oaxaqueño', 'Foodie Mexicano'];
-    return nombres[Math.floor(Math.random() * nombres.length)];
-  }
-
-  private generarUsernameAleatorio(): string {
-    const num = Math.floor(Math.random() * 9999);
-    return `@usuario${num}`;
-  }
-
   private obtenerIniciales(nombre: string): string {
+    if (!nombre) return 'US';
     return nombre.split(' ').map(p => p[0]).join('').toUpperCase().slice(0, 2);
   }
-
 
   cerrarSesion(): void {
     localStorage.removeItem('usuario_id');

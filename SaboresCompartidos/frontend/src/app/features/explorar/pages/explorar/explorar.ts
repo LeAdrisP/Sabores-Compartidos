@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
   styleUrl: './explorar.scss',
 })
 export class Explorar implements OnInit{
-//Para probar el diseño, luego se eliminará y se reemplazará por datos reales
 private router = inject(Router);
 
   public cards: Array<any> =[]

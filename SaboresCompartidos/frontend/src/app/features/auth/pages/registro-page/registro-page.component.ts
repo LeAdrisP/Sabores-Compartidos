@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // 👈 Importamos el cliente HTTP
+import { HttpClient, HttpHeaders } from '@angular/common/http'; 
 
 @Component({
   selector: 'app-registro-page',
@@ -13,9 +13,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'; // 👈 Importam
 })
 export class RegistroPageComponent {
   private router = inject(Router);
-  private http = inject(HttpClient); // 👈 Inyectamos el servicio HTTP
+  private http = inject(HttpClient);
 
-  // ⚠️ COLOCA TU URL DE NGROK AQUÍ (Recuerda cambiarla si reinicias ngrok)
   private readonly API_URL = 'https://remote-boxcar-morbidity.ngrok-free.dev/';
 
   correo: string = '';
@@ -42,7 +41,6 @@ export class RegistroPageComponent {
       return;
     }
 
-    // Estructuramos el cuerpo del JSON con los nombres exactos que espera Pydantic en Python
     const body = {
       correo: this.correo,
       contrasena: this.contrasena,
@@ -55,13 +53,11 @@ export class RegistroPageComponent {
     'ngrok-skip-browser-warning': 'true'
     });
 
-    // Realizamos la petición POST real hacia FastAPI
     this.http.post(`${this.API_URL}api/auth/registro`, body, { headers }).subscribe({
       next: (response: any) => {
         console.log('¡Firebase guardó al usuario con éxito!', response);
         localStorage.setItem('usuario_id', response.usuario_id); // 👈
         localStorage.setItem('correo', this.correo);
-        // Te redirige al feed principal ya autenticado
         this.router.navigate(['/login']);
       },
     error: (err) => {

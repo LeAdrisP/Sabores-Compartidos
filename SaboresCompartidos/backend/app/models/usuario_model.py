@@ -12,6 +12,6 @@ class LoginUsuario(BaseModel):
 
 class ActualizarUsuario(BaseModel):
     nombre: Optional[str] = None
-    username: Optional[str] = None
-    bio: Optional[str] = None
+    nombre_usuario: Optional[str] = None
+    biografia: Optional[str] = None
     ubicacion: Optional[str] = None
