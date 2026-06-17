@@ -23,7 +23,7 @@ export class App {
   mostrarNavegacion(): boolean {
     const rutaActual = this.router.url;
     
-    // 👇 MODIFICADO: Agregamos la validación para que oculte la barra en recuperar-password
+    //Agregamos la validación para que oculte la barra en recuperar-password
     return !(
       rutaActual.includes('login') || 
       rutaActual.includes('registro') || 

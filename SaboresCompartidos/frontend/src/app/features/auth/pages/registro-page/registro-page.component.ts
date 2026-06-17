@@ -24,10 +24,16 @@ export class RegistroPageComponent {
   isRemembered: boolean = false;
   errorMessage: string = '';
 
+  /** Alterna el estado del checkbox "Mantener sesión iniciada" */
   toggleRemember(): void {
     this.isRemembered = !this.isRemembered;
   }
 
+  /**
+   * Valida que todos los campos estén llenos y que las contraseñas coincidan,
+   * luego envía los datos al backend para crear la cuenta en Firebase.
+   * Si el registro es exitoso, guarda el ID en localStorage y redirige al login.
+   */
   onRegisterSubmit(): void {
     this.errorMessage = '';
 
@@ -56,17 +62,18 @@ export class RegistroPageComponent {
     this.http.post(`${this.API_URL}api/auth/registro`, body, { headers }).subscribe({
       next: (response: any) => {
         console.log('¡Firebase guardó al usuario con éxito!', response);
-        localStorage.setItem('usuario_id', response.usuario_id); // 👈
+        localStorage.setItem('usuario_id', response.usuario_id);
         localStorage.setItem('correo', this.correo);
         this.router.navigate(['/login']);
       },
-    error: (err) => {
+      error: (err) => {
         console.error('Error en el registro:', err);
         this.errorMessage = err.error?.detail || 'Hubo un problema al conectar con el servidor.';
       }
     });
   }
 
+  /** Cancela el registro y regresa a la pantalla de login */
   volverAlLogin(): void {
     this.router.navigate(['/login']);
   }

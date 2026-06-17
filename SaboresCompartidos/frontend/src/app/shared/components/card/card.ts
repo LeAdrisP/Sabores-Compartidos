@@ -4,7 +4,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatChipsModule} from '@angular/material/chips';
 import { MatButtonToggle } from '@angular/material/button-toggle';
-import { Router } from '@angular/router'; // 👈 Importamos el Router de Angular
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -20,8 +20,13 @@ import { Router } from '@angular/router'; // 👈 Importamos el Router de Angula
 export class Card {
   private router = inject(Router);
 
+  /**
+   * Navega a la sección de comentarios de la receta seleccionada.
+   * Detiene la propagación del evento para evitar que se active
+   * el click del elemento padre (la tarjeta completa).
+   */
   irAComentarios(event: Event): void {
-    event.stopPropagation(); // ✋ Detiene el click para que no afecte al padre
+    event.stopPropagation(); 
     console.log('Abriendo la sección independiente de comentarios...');
     this.router.navigate(['/comentarios-page']);
   }

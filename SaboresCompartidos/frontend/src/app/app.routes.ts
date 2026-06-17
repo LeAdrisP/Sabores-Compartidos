@@ -1,77 +1,91 @@
 import { Routes } from '@angular/router';
 
+/**
+ * Definición central de rutas de la aplicación.
+ * Todas las vistas se cargan de forma lazy (loadComponent) para optimizar
+ * el tiempo de carga inicial dividiendo el bundle por pantalla.
+ */
 export const routes: Routes = [
   {
+    // Redirige la ruta raíz al login automáticamente
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
   },
   {
+    // Pantalla de inicio de sesión
     path: 'login',
     loadComponent: () => 
       import('./features/auth/pages/login-page/login-page.component')
         .then(m => m.LoginPageComponent)
   },
   {
+    // Feed principal de recetas de la comunidad
     path: 'explorar',
     loadComponent: () =>
       import('./features/explorar/pages/explorar/explorar')
         .then(m => m.Explorar)
   },
   {
+    // Perfil público del usuario autenticado
     path: 'perfil',
     loadComponent: () =>
       import('./features/usuarios/pages/perfil-page/perfil-page.component')
         .then(m => m.PerfilPageComponent)
   },
-
   {
+    // Pantalla de recuperación de contraseña
     path: 'recuperar',
     loadComponent: () => 
       import('./features/auth/pages/recuperar-page/recuperar-page.component')
         .then(m => m.RecuperarPageComponent)
   },
-
   {
+    // Pantalla de creación de nueva cuenta
     path: 'registro',
     loadComponent: () => 
       import('./features/auth/pages/registro-page/registro-page.component')
         .then(m => m.RegistroPageComponent)
   },
-
   {
-  path: 'editar-perfil',
-  loadComponent: () => 
-    import('./features/usuarios/pages/editar-perfil-page/editar-perfil-page.component')
-      .then(m => m.EditarPerfilPageComponent)
+    // Formulario de edición de datos del perfil
+    path: 'editar-perfil',
+    loadComponent: () => 
+      import('./features/usuarios/pages/editar-perfil-page/editar-perfil-page.component')
+        .then(m => m.EditarPerfilPageComponent)
   },
-
   {
-    path: 'mis_recetas', // 👈 Tiene que llamarse exactamente igual al mapeo de tu Navbar
+    // Listado de recetas publicadas por el usuario autenticado
+    path: 'mis_recetas', 
     loadComponent: () => 
       import('./features/recetas/pages/mis-recetas-page/mis-recetas-page.component')
         .then(m => m.MisRecetasPageComponent)
   },
-
   {
-  path: 'detalle-receta',
-  loadComponent: () => 
-    import('./shared/components/detalle-page/detalle-page.component')
-      .then(m => m.DetallePageComponent)
+    // Vista ampliada con la información completa de una receta
+    path: 'detalle-receta',
+    loadComponent: () => 
+      import('./shared/components/detalle-page/detalle-page.component')
+        .then(m => m.DetallePageComponent)
   },
-
   {
+    // Sección de comentarios asociados a una receta específica
     path: 'comentarios-page',
     loadComponent: () => 
       import('./shared/components/comentarios/comentarios-page.component')
         .then(m => m.ComentariosPageComponent)
   },
-  
   {
-    path: "editar-receta",
-    loadComponent : () =>
+    // Formulario para crear o editar una receta
+    path: 'editar-receta',
+    loadComponent: () =>
       import('./features/recetas/pages/editar-receta/editar-receta')
-    .then(m => m.EditarReceta)
-  }
-
+        .then(m => m.EditarReceta)
+  },
+  {
+    path: 'buscar',
+    loadComponent: () =>
+      import('./features/recetas/pages/buscar-page/buscar-page.component')
+        .then(m => m.BuscarPageComponent)
+  },
 ];

@@ -13,7 +13,7 @@ export class ComentariosPageComponent {
   private location = inject(Location);
 
   /**
-   * Te regresa de forma inteligente a la vista exacta de donde venías
+   * Te regresa a la vista exacta de donde venías
    */
   volver(): void {
     console.log('Regresando al origen de la receta...');

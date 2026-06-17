@@ -1,27 +1,101 @@
-<!-- Formulario para recetas-->
+<div class="formulario-container">
+    <form class="formulario-receta">
 
-    <!--Imagen-->
+        <div class="seccion-foto">
+            <div class="contenedor-imagen">
+                <img src="#" alt="Imagen del platillo">
+                <button matButton class="btn-cambiar-foto">Cambiar foto</button>
+            </div>
+        </div>
 
-    <!--Nombre de la receta-->
-    <mat-form-field>
-        <mat-label>Nombre de la receta</mat-label>
-        <input matInput>
-    </mat-form-field>
+        <div class="campo-grupo">
+            <label>Nombre de la receta</label>
+            <input type="text" value="Tlayudas oaxaqueñas" required>
+        </div>
 
-    <!--Descripción-->
-    <mat-form-field>
-        <mat-label>Nombre de la receta</mat-label>
-        <input matInput>
-    </mat-form-field>
+        <div class="campo-grupo">
+            <label>Descripción</label>
+            <input type="text" value="La tlayuda es uno de los platillos más representativos..." required>
+        </div>
 
-    <!--Tiempoo aprox | Dificultad (Selector)-->
-    <mat-form-field>
-    </mat-form-field>    
+        <div class="campo-grupo">
+            <label>Tiempo aproximado</label>
+            <input type="text" value="40 min" required>
+        </div>
 
-    <!--Porciones | Categoría-->
+        <div class="campo-grupo">
+            <label>Dificultad</label>
+            <select name="Dificultad" id="dificultad" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="facil">Fácil</option>
+                <option value="intermedio">Intermedio</option>
+                <option value="dificil">Difícil</option>
+            </select>
+        </div>
 
-    <!--Momento del día(selector) | Tipo de platillo-->
-    
-    <!--Ingedientes (nombre | canitdad)-->
-    
-    <!--Preparación-->
+        <div class="campo-grupo">
+            <label>Porciones</label>
+            <input type="text" value="4" required>
+        </div>
+
+        <div class="campo-grupo">
+            <label>Categoria</label>
+            <input type="text" value="Mexicana" required>
+        </div>
+
+        <div class="campo-grupo momento-dia">
+            <label>Momento del día</label>
+            <div class="fila-dinamica">
+                <select name="momento-del-dia" id="momentodia" required>
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="desayuno">Desayuno</option>
+                    <option value="almuerzo">Almuerzo</option>
+                    <option value="comida-principal">Comida principal</option>
+                    <option value="merienda">Merienda</option>
+                    <option value="cena">Cena</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="campo-grupo tipo-platillo">
+            <label>Tipo de platillo</label>
+            <div class="tipo-platillo">
+                <input type="text" value="Típico">
+            </div>
+        </div>
+
+        <div class="seccion-bloque lista-dinamica">
+            <h3>Ingredientes</h3>
+
+            <div class="fila-dinamica">
+                <input type="text" class="ingrediente-nombre" value="Tortilla tlayuda">
+                <input type="text" class="ingrediente-cantidad" value="2 piezas">
+                <button class="btn-eliminar">-</button>
+            </div>
+
+            <button class="btn-agregar">+ Tipo de platillo</button>
+        </div>
+
+        <div class="seccion-bloque lista-dinamica">
+            <h3>Preparación</h3>
+
+            <div class="fila-paso">
+                <span class="paso-numero">1</span>
+                <textarea rows="2">Calienta el comal a fuego medio-alto. Unta el asiento en ambos lados...</textarea>
+            </div>
+
+            <div class="fila-paso">
+                <span class="paso-numero">2</span>
+                <textarea
+                    rows="2">Tuesta la tlayuda en el comal por 3 minutos por lado hasta que esté crujiente.</textarea>
+            </div>
+
+            <button class="btn-agregar">+ Agregar paso</button>
+        </div>
+
+        <div class="button">
+            <input type="submit" value="Publicar">
+        </div>
+
+    </form>
+</div>

@@ -27,6 +27,10 @@ export class PerfilPageComponent implements OnInit {
   seguidores: number = 0;
   siguiendo: number = 0;
 
+  /**
+   * Carga el perfil al iniciar y se suscribe a los eventos de navegación
+   * para recargar los datos cada vez que el usuario regresa a esta pantalla.
+   */
   ngOnInit(): void {
     this.cargarPerfil();
     
@@ -37,6 +41,10 @@ export class PerfilPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Obtiene los datos del perfil del usuario desde el backend usando el ID
+   * almacenado en localStorage. Si no hay sesión activa, redirige al login.
+   */
   cargarPerfil(): void {
     const usuarioId = localStorage.getItem('usuario_id');
     if (!usuarioId) {
@@ -64,17 +72,23 @@ export class PerfilPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Genera las iniciales del avatar a partir del nombre completo del usuario.
+   * Devuelve 'US' como valor por defecto si el nombre está vacío.
+   */
   private obtenerIniciales(nombre: string): string {
     if (!nombre) return 'US';
     return nombre.split(' ').map(p => p[0]).join('').toUpperCase().slice(0, 2);
   }
 
+  /** Elimina la sesión del localStorage y redirige a la pantalla de login */
   cerrarSesion(): void {
     localStorage.removeItem('usuario_id');
     localStorage.removeItem('correo');
     this.router.navigate(['/login']);
   }
 
+  /** Navega a la pantalla de edición de perfil */
   navigateToEditarPerfil(): void {
     this.router.navigate(['/editar-perfil']);
   }

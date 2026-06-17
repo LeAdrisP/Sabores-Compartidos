@@ -1,0 +1,146 @@
+.buscar-screen {
+  background-color: #F5EFE6;
+  min-height: 100vh;
+  padding-bottom: 80px; // Espacio libre para que el navbar no tape las tarjetas
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.header-buscar {
+  background-color: #F5EFE6;
+  padding: 24px 16px 12px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 16px;
+  }
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #EDE6DB;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+
+  .search-icon {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #707070;
+  }
+
+  input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    outline: none;
+
+    &::placeholder {
+      color: #9A9388;
+    }
+  }
+}
+
+.chips-container {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+
+  .chip {
+    background-color: #FFFFFF;
+    border: 1px solid #C5BCB0;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.active {
+      background-color: #E65C00;
+      color: #FFFFFF;
+      border-color: #E65C00;
+    }
+  }
+}
+
+.resultados-container {
+  padding: 0 16px;
+
+  .contador {
+    font-size: 14px;
+    font-weight: 700;
+    color: #8A8276;
+    margin-bottom: 12px;
+  }
+}
+
+.receta-card {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  display: flex;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+
+  .card-thumb {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+
+  .card-info {
+    margin-left: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+
+    h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #000;
+      margin: 0 0 4px 0;
+    }
+
+    .autor {
+      font-size: 13px;
+      color: #7A7266;
+      margin: 0 0 8px 0;
+      span {
+        color: #E65C00;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #60584F;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+
+  &.fácil { background-color: #EAF7EE; color: #2E7D32; }
+  &.medio { background-color: #FDF3E7; color: #D97706; }
+  &.difícil { background-color: #FCE8E6; color: #C62828; }
+}

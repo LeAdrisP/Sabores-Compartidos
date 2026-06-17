@@ -1,0 +1,40 @@
+<div class="buscar-screen">
+  <header class="header-buscar">
+    <h1>¿Qué cocinas hoy?</h1>
+    
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        [(ngModel)]="searchText" 
+        (input)="filtrarRecetas()" 
+        placeholder="Buscar receta por nombre..." />
+    </div>
+
+    <div class="chips-container">
+      <button class="chip" [class.active]="filtroActivo === 'Todas'" (click)="setFiltro('Todas')">Todas</button>
+      <button class="chip" [class.active]="filtroActivo === 'Fácil'" (click)="setFiltro('Fácil')">Fácil</button>
+      <button class="chip" [class.active]="filtroActivo === 'Medio'" (click)="setFiltro('Medio')">Medio</button>
+      <button class="chip" [class.active]="filtroActivo === 'Difícil'" (click)="setFiltro('Difícil')">Difícil</button>
+    </div>
+  </header>
+
+  <main class="resultados-container">
+    <p class="contador">{{ recetasFiltradas.length }} recetas encontradas</p>
+
+    <div class="receta-card" *ngFor="let receta of recetasFiltradas">
+      <div class="card-thumb" [style.backgroundColor]="receta.color || '#FDF3E7'"></div>
+      
+      <div class="card-info">
+        <h3>{{ receta.nombre }}</h3>
+        <p class="autor">por <span>{{ receta.autor }}</span> • {{ receta.dias || 'hace poco' }}</p>
+        
+        <div class="meta-row">
+          <span class="badge" [ngClass]="receta.dificultad.toLowerCase()">{{ receta.dificultad }}</span>
+          <span class="meta-item">⏱️ {{ receta.tiempo }}</span>
+          <span class="meta-item">🖤 {{ receta.likes }}</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

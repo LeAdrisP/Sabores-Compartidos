@@ -18,7 +18,6 @@ export class RecuperarPageComponent {
    */
   enviarCodigo(): void {
     console.log('Generando código de verificación para el usuario...');
-    // Aquí irá tu lógica con el backend de Python
   }
 
   /**

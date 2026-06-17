@@ -17,7 +17,6 @@ export class EditarPerfilPageComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private readonly API_URL = 'https://remote-boxcar-morbidity.ngrok-free.dev/';
 
-  // Campos editables
   nombre: string = '';
   username: string = '';
   bio: string = '';
@@ -26,6 +25,10 @@ export class EditarPerfilPageComponent implements OnInit {
 
   isSessionActive: boolean = true;
 
+  /**
+   * Carga los datos actuales del perfil desde el backend al entrar a la pantalla.
+   * Si no hay sesión activa, redirige al login.
+   */
   ngOnInit(): void {
     const usuarioId = localStorage.getItem('usuario_id');
     if (!usuarioId) {
@@ -38,11 +41,11 @@ export class EditarPerfilPageComponent implements OnInit {
     this.http.get(`${this.API_URL}api/usuarios/${usuarioId}`, { headers }).subscribe({
       next: (data: any) => {
           this.nombre = data.nombre || '';
-          this.username = data.nombre_usuario || ''; 
-          this.bio = data.biografia || '';            
+          this.username = data.nombre_usuario || '';
+          this.bio = data.biografia || '';
           this.ubicacion = data.ubicacion || '';
           this.iniciales = this.obtenerIniciales(this.nombre);
-          this.cdr.detectChanges(); 
+          this.cdr.detectChanges();
       },
       error: () => {
         console.error('No se pudo cargar el perfil');
@@ -50,15 +53,24 @@ export class EditarPerfilPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Genera las iniciales del avatar a partir del nombre completo del usuario.
+   * Devuelve 'US' como valor por defecto si el nombre está vacío.
+   */
   private obtenerIniciales(nombre: string): string {
     if (!nombre) return 'US';
     return nombre.split(' ').map(p => p[0]).join('').toUpperCase().slice(0, 2);
   }
 
+  /** Alterna el estado del switch "Mantener sesión iniciada" */
   toggleSession(): void {
     this.isSessionActive = !this.isSessionActive;
   }
 
+  /**
+   * Envía los datos editados al backend para actualizar el perfil en Firestore.
+   * Al completarse con éxito, redirige a la pantalla de perfil.
+   */
   guardarPerfil(): void {
     const usuarioId = localStorage.getItem('usuario_id');
     if (!usuarioId) return;
@@ -68,7 +80,7 @@ export class EditarPerfilPageComponent implements OnInit {
     const body = {
         nombre: this.nombre,
         nombre_usuario: this.username,
-        biografia: this.bio,            
+        biografia: this.bio,
         ubicacion: this.ubicacion
     };
 
@@ -83,6 +95,7 @@ export class EditarPerfilPageComponent implements OnInit {
     });
   }
 
+  /** Cancela la edición y regresa al perfil sin guardar cambios */
   cancelar(): void {
     this.router.navigate(['/perfil']);
   }

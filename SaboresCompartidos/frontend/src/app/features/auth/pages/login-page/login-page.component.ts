@@ -22,10 +22,16 @@ export class LoginPageComponent {
   isRemembered: boolean = false;
   errorMessage: string = '';
 
+  /** Alterna el estado del checkbox "Mantener sesión iniciada" */
   toggleRemember(): void {
     this.isRemembered = !this.isRemembered;
   }
 
+  /**
+   * Valida los campos y envía las credenciales al backend.
+   * Si el login es exitoso, guarda el ID del usuario en localStorage
+   * y redirige a la pantalla de explorar.
+   */
   onLoginSubmit(): void {
     this.errorMessage = '';
 
@@ -50,10 +56,12 @@ export class LoginPageComponent {
     });
   }
 
+  /** Redirige a la pantalla de registro de nuevo usuario */
   navigateToRegistro(): void {
     this.router.navigate(['/registro']);
   }
 
+  /** Redirige a la pantalla de recuperación de contraseña */
   navigateToRecuperar(): void {
     this.router.navigate(['/recuperar']);
   }

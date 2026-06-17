@@ -22,8 +22,13 @@ export class NavbarInferiorComponent implements OnInit {
     perfil: '/perfil',
     mis_recetas: '/mis_recetas',
     publicar:'/editar-receta',
+    buscar: '/buscar',
   };
 
+  /**
+   * Detecta la ruta activa al cargar el componente y se suscribe a los eventos
+   * de navegación para mantener el tab resaltado sincronizado con la URL actual.
+   */
   ngOnInit(): void {
     this.actualizarTabActiva(this.router.url);
 
@@ -34,10 +39,13 @@ export class NavbarInferiorComponent implements OnInit {
       });
   }
 
+  /**
+   * Navega a la ruta correspondiente al tab seleccionado y emite el evento
+   * de cambio para que el componente padre pueda reaccionar si es necesario.
+   */
   setActiveTab(tabName: string): void {
     const ruta = this.rutas[tabName];
     if (ruta) {
-      // Forzamos el cambio visual inmediato para que la línea naranja pinte sin retrasos
       this.activeTab = tabName; 
       this.router.navigate([ruta]).catch(err => {
         console.error('Error al navegar: Asegúrate de que la ruta exista en app.routes.ts', err);
@@ -48,13 +56,17 @@ export class NavbarInferiorComponent implements OnInit {
     this.tabChanged.emit(tabName);
   }
 
+  /**
+   * Compara la URL actual contra las rutas conocidas para determinar
+   * qué tab debe aparecer como activo en la barra de navegación.
+   */
   private actualizarTabActiva(url: string): void {
     if (url.includes('/perfil')) {
       this.activeTab = 'perfil';
       return;
     }
     if (url.includes('/mis_recetas')) {
-      this.activeTab = 'mis_recetas'; // Esto activará la clase .on y pintará la línea naranja en PC
+      this.activeTab = 'mis_recetas';
       return;
     }
     if (url.includes('/explorar')) {
@@ -62,6 +74,9 @@ export class NavbarInferiorComponent implements OnInit {
     }
     if(url.includes('./editar-receta')){
       this.activeTab = 'editar';
+    }
+    if (url.includes('/buscar')) { 
+      this.activeTab = 'buscar'; return; 
     }
   }
 }
