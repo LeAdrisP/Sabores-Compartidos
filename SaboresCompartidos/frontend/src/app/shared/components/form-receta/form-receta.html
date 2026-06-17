@@ -7,25 +7,25 @@
                 <button matButton class="btn-cambiar-foto">Cambiar foto</button>
             </div>
         </div>
- 
+
         <div class="campo-grupo">
             <label>Nombre de la receta</label>
-            <input type="text" value="Tlayudas oaxaqueñas">
+            <input type="text" value="Tlayudas oaxaqueñas" required>
         </div>
 
         <div class="campo-grupo">
             <label>Descripción</label>
-            <input type="text" value="La tlayuda es uno de los platillos más representativos...">
+            <input type="text" value="La tlayuda es uno de los platillos más representativos..." required>
         </div>
 
         <div class="campo-grupo">
             <label>Tiempo aproximado</label>
-            <input type="text" value="40 min">
+            <input type="text" value="40 min" required>
         </div>
 
         <div class="campo-grupo">
             <label>Dificultad</label>
-            <select name="Dificultad" id="dificultad">
+            <select name="Dificultad" id="dificultad" required>
                 <option value="" disabled selected>Selecciona una opción</option>
                 <option value="facil">Fácil</option>
                 <option value="intermedio">Intermedio</option>
@@ -35,18 +35,25 @@
 
         <div class="campo-grupo">
             <label>Porciones</label>
-            <input type="text" value="4">
+            <input type="text" value="4" required>
         </div>
 
         <div class="campo-grupo">
             <label>Categoria</label>
-            <input type="text" value="Mexicana">
+            <input type="text" value="Mexicana" required>
         </div>
 
         <div class="campo-grupo momento-dia">
             <label>Momento del día</label>
             <div class="fila-dinamica">
-                <input type="text" value="Comida">
+                <select name="momento-del-dia" id="momentodia" required>
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="desayuno">Desayuno</option>
+                    <option value="almuerzo">Almuerzo</option>
+                    <option value="comida-principal">Comida principal</option>
+                    <option value="merienda">Merienda</option>
+                    <option value="cena">Cena</option>
+                </select>
             </div>
         </div>
 
@@ -84,6 +91,10 @@
             </div>
 
             <button class="btn-agregar">+ Agregar paso</button>
+        </div>
+
+        <div class="button">
+            <input type="submit" value="Publicar">
         </div>
 
     </form>
