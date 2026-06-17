@@ -1,0 +1,148 @@
+:host {
+  display: block;
+  background-color: #f3ebe1; // Color de fondo beige de tu referencia
+  min-height: 100vh;
+}
+
+.formulario-container {
+  max-width: 500px; // Limita el ancho para que mantenga esa estética de app/móvil
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.formulario-receta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); // Fuerza las 2 columnas simétricas
+  gap: 1.2rem 1rem; // Separación entre campos
+
+  // Estilos generales para inputs que emulan tu imagen
+  input[type="text"], select, textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    color: #8c8c8c;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+    font-weight: bold;
+  }
+}
+
+// Estructura de cada bloque de input estándar
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+}
+
+// Foto de la receta
+.seccion-foto {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  .contenedor-imagen {
+    text-align: center;
+    img {
+      width: 120px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .btn-cambiar-foto {
+      background-color: #f27435;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+  }
+}
+
+// Manejo de filas dinámicas (Momento del día / Tipo de Platillo)
+.lista-dinamica {
+  .fila-dinamica {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+  .btn-eliminar {
+    background-color: #f5a3a3;
+    color: #c0392b;
+    border: none;
+    width: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .btn-agregar {
+    background-color: #e6ded4;
+    border: 1px solid #d1c7bd;
+    padding: 0.5rem;
+    border-radius: 8px;
+    color: #666;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-top: 0.2rem;
+  }
+}
+
+// Secciones grandes: Ingredientes y Preparación
+.seccion-bloque {
+  grid-column: span 2; // Rompe las 2 columnas y toma todo el ancho
+  margin-top: 1rem;
+
+  h3 {
+    font-size: 1.1rem;
+    color: #4a4a4a;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid #e0d7cc;
+    padding-bottom: 0.3rem;
+  }
+}
+
+// Grid interno para los ingredientes (Nombre a la izquierda, Cantidad a la derecha)
+.fila-ingrediente {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+// Estructura de los Pasos de la preparación
+.fila-paso {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
+
+  .paso-numero {
+    background-color: #f27435; // Naranja del círculo
+    color: white;
+    font-weight: bold;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; // Evita que se deforme si el texto es largo
+    font-size: 0.9rem;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+}

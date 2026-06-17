@@ -1,0 +1,90 @@
+<div class="formulario-container">
+    <form class="formulario-receta">
+
+        <div class="seccion-foto">
+            <div class="contenedor-imagen">
+                <img src="#" alt="Imagen del platillo">
+                <button matButton class="btn-cambiar-foto">Cambiar foto</button>
+            </div>
+        </div>
+ 
+        <div class="campo-grupo">
+            <label>Nombre de la receta</label>
+            <input type="text" value="Tlayudas oaxaqueñas">
+        </div>
+
+        <div class="campo-grupo">
+            <label>Descripción</label>
+            <input type="text" value="La tlayuda es uno de los platillos más representativos...">
+        </div>
+
+        <div class="campo-grupo">
+            <label>Tiempo aproximado</label>
+            <input type="text" value="40 min">
+        </div>
+
+        <div class="campo-grupo">
+            <label>Dificultad</label>
+            <select name="Dificultad" id="dificultad">
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="facil">Fácil</option>
+                <option value="intermedio">Intermedio</option>
+                <option value="dificil">Difícil</option>
+            </select>
+        </div>
+
+        <div class="campo-grupo">
+            <label>Porciones</label>
+            <input type="text" value="4">
+        </div>
+
+        <div class="campo-grupo">
+            <label>Categoria</label>
+            <input type="text" value="Mexicana">
+        </div>
+
+        <div class="campo-grupo momento-dia">
+            <label>Momento del día</label>
+            <div class="fila-dinamica">
+                <input type="text" value="Comida">
+            </div>
+        </div>
+
+        <div class="campo-grupo tipo-platillo">
+            <label>Tipo de platillo</label>
+            <div class="tipo-platillo">
+                <input type="text" value="Típico">
+            </div>
+        </div>
+
+        <div class="seccion-bloque lista-dinamica">
+            <h3>Ingredientes</h3>
+
+            <div class="fila-dinamica">
+                <input type="text" class="ingrediente-nombre" value="Tortilla tlayuda">
+                <input type="text" class="ingrediente-cantidad" value="2 piezas">
+                <button class="btn-eliminar">-</button>
+            </div>
+
+            <button class="btn-agregar">+ Tipo de platillo</button>
+        </div>
+
+        <div class="seccion-bloque lista-dinamica">
+            <h3>Preparación</h3>
+
+            <div class="fila-paso">
+                <span class="paso-numero">1</span>
+                <textarea rows="2">Calienta el comal a fuego medio-alto. Unta el asiento en ambos lados...</textarea>
+            </div>
+
+            <div class="fila-paso">
+                <span class="paso-numero">2</span>
+                <textarea
+                    rows="2">Tuesta la tlayuda en el comal por 3 minutos por lado hasta que esté crujiente.</textarea>
+            </div>
+
+            <button class="btn-agregar">+ Agregar paso</button>
+        </div>
+
+    </form>
+</div>
