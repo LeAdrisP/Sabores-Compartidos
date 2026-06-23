@@ -63,10 +63,10 @@ export const routes: Routes = [
   },
   {
     // Vista ampliada con la información completa de una receta
-    path: 'detalle-receta',
-    loadComponent: () => 
-      import('./shared/components/detalle-page/detalle-page.component')
-        .then(m => m.DetallePageComponent)
+  path: 'detalle-receta/:id',
+      loadComponent: () => 
+        import('./shared/components/detalle-page/detalle-page.component')
+          .then(m => m.DetallePageComponent)
   },
   {
     // Sección de comentarios asociados a una receta específica

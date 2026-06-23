@@ -1,34 +1,43 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Importación necesaria para el *ngIf
-import { Router, RouterOutlet } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { NavbarInferiorComponent } from './layout/navbar-inferior/navbar-inferior.component';
 
 @Component({
   selector: 'app-root',
-  standalone: true, // Aseguramos el estado standalone explícito
+  standalone: true,
   imports: [CommonModule, RouterOutlet, NavbarInferiorComponent],
   templateUrl: './app.html',
-  styleUrls: ['./app.scss'] // Corregido a styleUrls como pide la guía
+  styleUrls: ['./app.scss']
 })
 export class App {
   title = 'Sabores Compartidos';
-  
-  // Inyección moderna del servicio Router de Angular
+
   private router = inject(Router);
 
+  /** Controla si la navbar inferior debe mostrarse según la ruta actual */
+  mostrarNavegacion = signal(this.calcularVisibilidad(this.router.url));
+
+  constructor() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event) => {
+      const url = (event as NavigationEnd).urlAfterRedirects;
+      this.mostrarNavegacion.set(this.calcularVisibilidad(url));
+    });
+  }
+
   /**
-   * Devuelve 'true' si el usuario NO está en la pantalla de login, registro o recuperación.
-   * Se mapea directo en el *ngIf de tu archivo app.html.
+   * Determina si la navbar debe mostrarse: se oculta en pantallas de
+   * autenticación (login, registro, recuperar) y en editar-perfil.
    */
-  mostrarNavegacion(): boolean {
-    const rutaActual = this.router.url;
-    
-    //Agregamos la validación para que oculte la barra en recuperar-password
+  private calcularVisibilidad(url: string): boolean {
     return !(
-      rutaActual.includes('login') || 
-      rutaActual.includes('registro') || 
-      rutaActual.includes('recuperar') ||
-      rutaActual.includes('editar-perfil')
+      url.includes('login') ||
+      url.includes('registro') ||
+      url.includes('recuperar') ||
+      url.includes('editar-perfil')
     );
   }
 }

@@ -1,47 +1,45 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { Card } from "../../../../shared/components/card/card";
-import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Card, RecetaCard } from "../../../../shared/components/card/card";
 
 @Component({
   selector: 'app-explorar',
-  imports: [CommonModule,
-    MatButtonToggleModule,
-    Card
-  ],
+  imports: [CommonModule, MatButtonToggleModule, Card],
   templateUrl: './explorar.html',
   styleUrl: './explorar.scss',
 })
-export class Explorar implements OnInit{
-  private router = inject(Router);
+export class Explorar implements OnInit {
+  private http = inject(HttpClient);
 
-  public cards: Array<any> = []
+  private readonly API_URL = 'https://remote-boxcar-morbidity.ngrok-free.dev/';
+  private headers = new HttpHeaders({ 'ngrok-skip-browser-warning': 'true' });
 
-  /**
-   * Inicializa la lista de recetas con datos de prueba temporales
-   * mientras se implementa la conexión real con el backend.
-   */
+  recetas = signal<RecetaCard[]>([]);
+  cargando = signal(true);
+
+  /** Carga todas las recetas publicadas desde el backend al iniciar la vista */
   ngOnInit(): void {
-    this.cards = [
-      { title: 'Receta 1', description: 'Descripción de la receta 1' },
-      { title: 'Receta 2', description: 'Descripción de la receta 2' },
-      { title: 'Receta 3', description: 'Descripción de la receta 3' },
-      { title: 'Receta 4', description: 'Descripción de la receta 4' },
-      { title: 'Receta 5', description: 'Descripción de la receta 5' },
-      { title: 'Receta 6', description: 'Descripción de la receta 6' },
-      { title: 'Receta 7', description: 'Descripción de la receta 7' },
-      { title: 'Receta 8', description: 'Descripción de la receta 8' },
-      { title: 'Receta 9', description: 'Descripción de la receta 9' },
-      { title: 'Receta 10', description: 'Descripción de la receta 10' },
-      { title: 'Receta 11', description: 'Descripción de la receta 11' },
-      { title: 'Receta 12', description: 'Descripción de la receta 12' },
-    ]
+    this.cargarRecetas();
   }
 
-  /** Navega a la pantalla de detalle de una receta seleccionada */
-  verDetalleReceta(): void {
-    console.log('Abriendo información detallada de la receta...');
-    this.router.navigate(['/detalle-receta']);
+  /**
+   * Obtiene el feed completo de recetas desde el backend y lo asigna
+   * al signal de recetas para que se rendericen como tarjetas.
+   */
+  cargarRecetas(): void {
+    this.cargando.set(true);
+
+    this.http.get<any>(`${this.API_URL}api/recetas/`, { headers: this.headers }).subscribe({
+      next: (data) => {
+        this.recetas.set(data.recetas || []);
+        this.cargando.set(false);
+      },
+      error: () => {
+        console.error('No se pudieron cargar las recetas');
+        this.cargando.set(false);
+      }
+    });
   }
 }

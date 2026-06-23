@@ -1,6 +1,9 @@
 from fastapi import APIRouter, HTTPException, status
 from models.usuario_model import RegistroUsuario, LoginUsuario
 from data.usuarios_data import registrar_nuevo_usuario, buscar_usuario_por_correo
+from core.email_service import enviar_codigo_verificacion
+from data.usuarios_data import generar_y_guardar_codigo, validar_codigo, actualizar_contrasena
+from models.usuario_model import SolicitarCodigo, ValidarCodigo, RestablecerContrasena
 
 router = APIRouter(
     prefix="/api/auth",
@@ -39,3 +42,28 @@ def login_usuario(usuario: LoginUsuario):
         "mensaje": "Login exitoso",
         "usuario_id": resultado["id"]
     }
+
+@router.post("/recuperar/solicitar")
+def solicitar_codigo(datos: SolicitarCodigo):
+    codigo = generar_y_guardar_codigo(datos.correo)
+    if codigo is None:
+        raise HTTPException(status_code=404, detail="No existe una cuenta con ese correo")
+
+    enviado = enviar_codigo_verificacion(datos.correo, codigo)
+    if not enviado:
+        raise HTTPException(status_code=500, detail="Error al enviar el correo")
+
+    return {"status": "success", "mensaje": "Código enviado"}
+
+
+@router.post("/recuperar/restablecer")
+def restablecer_contrasena(datos: RestablecerContrasena):
+    usuario = validar_codigo(datos.correo, datos.codigo)
+    if usuario is None:
+        raise HTTPException(status_code=400, detail="Código inválido o expirado")
+
+    exito = actualizar_contrasena(usuario["id"], datos.nueva_contrasena)
+    if not exito:
+        raise HTTPException(status_code=500, detail="Error al actualizar la contraseña")
+
+    return {"status": "success", "mensaje": "Contraseña actualizada"}

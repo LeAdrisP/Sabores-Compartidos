@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-registro-page',
@@ -17,16 +17,15 @@ export class RegistroPageComponent {
 
   private readonly API_URL = 'https://remote-boxcar-morbidity.ngrok-free.dev/';
 
-  correo: string = '';
-  contrasena: string = '';
-  confirmar_contrasena: string = '';
-
-  isRemembered: boolean = false;
-  errorMessage: string = '';
+  correo = signal('');
+  contrasena = signal('');
+  confirmar_contrasena = signal('');
+  isRemembered = signal(false);
+  errorMessage = signal('');
 
   /** Alterna el estado del checkbox "Mantener sesión iniciada" */
   toggleRemember(): void {
-    this.isRemembered = !this.isRemembered;
+    this.isRemembered.set(!this.isRemembered());
   }
 
   /**
@@ -35,40 +34,34 @@ export class RegistroPageComponent {
    * Si el registro es exitoso, guarda el ID en localStorage y redirige al login.
    */
   onRegisterSubmit(): void {
-    this.errorMessage = '';
+    this.errorMessage.set('');
 
-    if (!this.correo || !this.contrasena || !this.confirmar_contrasena) {
-      this.errorMessage = 'Por favor, llena todos los campos.';
+    if (!this.correo() || !this.contrasena() || !this.confirmar_contrasena()) {
+      this.errorMessage.set('Por favor, llena todos los campos.');
       return;
     }
 
-    if (this.contrasena !== this.confirmar_contrasena) {
-      this.errorMessage = 'Las contraseñas no coinciden.';
+    if (this.contrasena() !== this.confirmar_contrasena()) {
+      this.errorMessage.set('Las contraseñas no coinciden.');
       return;
     }
 
     const body = {
-      correo: this.correo,
-      contrasena: this.contrasena,
-      confirmar_contrasena: this.confirmar_contrasena
+      correo: this.correo(),
+      contrasena: this.contrasena(),
+      confirmar_contrasena: this.confirmar_contrasena()
     };
 
-    console.log('Enviando datos de registro a través del túnel ngrok...');
-
-    const headers = new HttpHeaders({
-    'ngrok-skip-browser-warning': 'true'
-    });
+    const headers = new HttpHeaders({ 'ngrok-skip-browser-warning': 'true' });
 
     this.http.post(`${this.API_URL}api/auth/registro`, body, { headers }).subscribe({
       next: (response: any) => {
-        console.log('¡Firebase guardó al usuario con éxito!', response);
         localStorage.setItem('usuario_id', response.usuario_id);
-        localStorage.setItem('correo', this.correo);
+        localStorage.setItem('correo', this.correo());
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        console.error('Error en el registro:', err);
-        this.errorMessage = err.error?.detail || 'Hubo un problema al conectar con el servidor.';
+        this.errorMessage.set(err.error?.detail || 'Hubo un problema al conectar con el servidor.');
       }
     });
   }

@@ -1,48 +1,48 @@
-<div class="perfil-page">
-  <div class="profile-cover"></div>
+  <div class="perfil-page">
+    <div class="profile-cover"></div>
 
-  <div class="profile-avatar-section">
-    <div class="profile-avatar">{{ iniciales }}</div>
-    <div class="profile-actions">
-      <button type="button" class="btn-profile-action" (click)="cerrarSesion()">
-        Cerrar sesión
-      </button>
-      <button type="button" class="btn-profile-action" (click)="navigateToEditarPerfil()">
-        Editar perfil
-      </button>
+    <div class="profile-avatar-section">
+      <div class="profile-avatar">{{ iniciales() }}</div>
+      <div class="profile-actions">
+        <button type="button" class="btn-profile-action" (click)="cerrarSesion()">
+          Cerrar sesión
+        </button>
+        <button type="button" class="btn-profile-action" (click)="navigateToEditarPerfil()">
+          Editar perfil
+        </button>
+      </div>
     </div>
-  </div>
 
-  <div class="profile-info">
-    <h1 class="profile-name">{{ nombre }}</h1>
-    <p class="profile-username">
-      {{ username }}<span *ngIf="ubicacion"> · {{ ubicacion }}</span>
+    <div class="profile-info">
+      <h1 class="profile-name">{{ nombre() }}</h1>
+      <p class="profile-username">
+        {{ username() }}<span *ngIf="ubicacion()"> · {{ ubicacion() }}</span>
+      </p>
+      <p class="profile-bio" *ngIf="bio()">{{ bio() }}</p>
+    </div>
+
+    <div class="profile-stats">
+      <div class="stat-item">
+        <div class="stat-num">{{ recetas() }}</div>
+        <div class="stat-label">Recetas</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">{{ seguidores() }}</div>
+        <div class="stat-label">Seguidores</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">{{ siguiendo() }}</div>
+        <div class="stat-label">Siguiendo</div>
+      </div>
+    </div>
+
+    <h3 class="profile-recipes-title">Recetas mejor valoradas</h3>
+
+    <div class="recipes-grid" *ngIf="recetas() > 0">
+      <!-- aquí irán las recetas cuando las tengas -->
+    </div>
+
+    <p *ngIf="recetas() === 0" style="text-align:center; color:#999; padding: 16px;">
+      Aún no has publicado recetas.
     </p>
-    <p class="profile-bio" *ngIf="bio">{{ bio }}</p>
   </div>
-
-  <div class="profile-stats">
-    <div class="stat-item">
-      <div class="stat-num">{{ recetas }}</div>
-      <div class="stat-label">Recetas</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">{{ seguidores }}</div>
-      <div class="stat-label">Seguidores</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">{{ siguiendo }}</div>
-      <div class="stat-label">Siguiendo</div>
-    </div>
-  </div>
-
-  <h3 class="profile-recipes-title">Recetas mejor valoradas</h3>
-
-  <div class="recipes-grid" *ngIf="recetas > 0">
-    <!-- aquí irán las recetas cuando las tengas -->
-  </div>
-
-  <p *ngIf="recetas === 0" style="text-align:center; color:#999; padding: 16px;">
-    Aún no has publicado recetas.
-  </p>
-</div>

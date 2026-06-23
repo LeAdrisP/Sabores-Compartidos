@@ -13,28 +13,28 @@
         <h2>Bienvenido de vuelta</h2>
         <p class="subtitle">Inicia sesión para continuar</p>
 
-        <div class="error-container" *ngIf="errorMessage" style="color: #C4622D; font-size: 13px; font-weight: 700; margin-bottom: 12px; text-align: center;">
-          {{ errorMessage }}
+        <div class="error-container" *ngIf="errorMessage()" style="color: #C4622D; font-size: 13px; font-weight: 700; margin-bottom: 12px; text-align: center;">
+          {{ errorMessage() }}
         </div>
 
         <div class="field-group">
           <label class="field-label">Correo electrónico</label>
           <input class="field-input" type="email" name="correo"
-            [(ngModel)]="correo" placeholder="tu@correo.com" />
+            [ngModel]="correo()" (ngModelChange)="correo.set($event)" placeholder="tu@correo.com" />
         </div>
 
         <div class="field-group">
           <label class="field-label">Contraseña</label>
           <input class="field-input" type="password" name="contrasena"
-            [(ngModel)]="contrasena" placeholder="••••••••" />
+            [ngModel]="contrasena()" (ngModelChange)="contrasena.set($event)" placeholder="••••••••" />
         </div>
 
         <div class="remember-row">
           <div class="remember-check">
-            <div class="check-box" [class.checked]="isRemembered" (click)="toggleRemember()"></div>
+            <div class="check-box" [class.checked]="isRemembered()" (click)="toggleRemember()"></div>
             <label>Mantener sesión iniciada</label>
           </div>
-          <span class="forgot-link" (click)="navigateToRecuperar()">¿Olvidaste?</span>
+          <span class="forgot-link" routerLink="/recuperar">¿Olvidaste?</span>
         </div>
 
         <button class="btn-primary" (click)="onLoginSubmit()">Iniciar sesión</button>

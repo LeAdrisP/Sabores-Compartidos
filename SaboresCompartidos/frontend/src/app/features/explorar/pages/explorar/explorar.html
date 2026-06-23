@@ -3,7 +3,7 @@
   <h2>Bienvenido a Sabores Compartidos</h2>
 </header>
 <div class="explorar-page">
- 
+
   <div class="opciones">
     <mat-button-toggle-group class="btn-tgl-gp" aria-label="Filtro de tendencias">
       <mat-button-toggle class="btn-tgl" value="Populares">Populares</mat-button-toggle>
@@ -12,9 +12,15 @@
     </mat-button-toggle-group>
   </div>
 
+  <p *ngIf="cargando()">Cargando recetas...</p>
+
+  <p *ngIf="!cargando() && recetas().length === 0" style="text-align:center; color:#999; padding: 24px;">
+    Aún no hay recetas publicadas. ¡Sé el primero!
+  </p>
+
   <!--Cuadricula para desplegar tarjetas-->
-  <div class="grid">
-    <app-card *ngFor="let card of cards" (click)="verDetalleReceta()"></app-card>
+  <div class="grid" *ngIf="!cargando() && recetas().length > 0">
+    <app-card *ngFor="let receta of recetas()" [receta]="receta"></app-card>
   </div>
 
 </div>

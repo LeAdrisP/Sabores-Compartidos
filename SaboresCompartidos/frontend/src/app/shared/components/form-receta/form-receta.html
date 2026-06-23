@@ -1,101 +1,203 @@
 <div class="formulario-container">
-    <form class="formulario-receta">
 
-        <div class="seccion-foto">
-            <div class="contenedor-imagen">
-                <img src="#" alt="Imagen del platillo">
-                <button matButton class="btn-cambiar-foto">Cambiar foto</button>
-            </div>
-        </div>
+  <form class="formulario-receta" (ngSubmit)="publicarReceta()">
 
-        <div class="campo-grupo">
-            <label>Nombre de la receta</label>
-            <input type="text" value="Tlayudas oaxaqueñas" required>
-        </div>
 
-        <div class="campo-grupo">
-            <label>Descripción</label>
-            <input type="text" value="La tlayuda es uno de los platillos más representativos..." required>
-        </div>
 
-        <div class="campo-grupo">
-            <label>Tiempo aproximado</label>
-            <input type="text" value="40 min" required>
-        </div>
+    <div class="error-container" *ngIf="errorMessage()" style="color: #C4622D; font-weight: 700; text-align: center; margin-bottom: 12px;">
 
-        <div class="campo-grupo">
-            <label>Dificultad</label>
-            <select name="Dificultad" id="dificultad" required>
-                <option value="" disabled selected>Selecciona una opción</option>
-                <option value="facil">Fácil</option>
-                <option value="intermedio">Intermedio</option>
-                <option value="dificil">Difícil</option>
-            </select>
-        </div>
+      {{ errorMessage() }}
 
-        <div class="campo-grupo">
-            <label>Porciones</label>
-            <input type="text" value="4" required>
-        </div>
+    </div>
 
-        <div class="campo-grupo">
-            <label>Categoria</label>
-            <input type="text" value="Mexicana" required>
-        </div>
 
-        <div class="campo-grupo momento-dia">
-            <label>Momento del día</label>
-            <div class="fila-dinamica">
-                <select name="momento-del-dia" id="momentodia" required>
-                    <option value="" disabled selected>Selecciona una opción</option>
-                    <option value="desayuno">Desayuno</option>
-                    <option value="almuerzo">Almuerzo</option>
-                    <option value="comida-principal">Comida principal</option>
-                    <option value="merienda">Merienda</option>
-                    <option value="cena">Cena</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="campo-grupo tipo-platillo">
-            <label>Tipo de platillo</label>
-            <div class="tipo-platillo">
-                <input type="text" value="Típico">
-            </div>
-        </div>
+    <div class="seccion-foto">
 
-        <div class="seccion-bloque lista-dinamica">
-            <h3>Ingredientes</h3>
+      <div class="contenedor-imagen">
 
-            <div class="fila-dinamica">
-                <input type="text" class="ingrediente-nombre" value="Tortilla tlayuda">
-                <input type="text" class="ingrediente-cantidad" value="2 piezas">
-                <button class="btn-eliminar">-</button>
-            </div>
+        <img [src]="imagenPreview() || '#'" alt="Imagen del platillo">
 
-            <button class="btn-agregar">+ Tipo de platillo</button>
-        </div>
+        <input type="file" accept="image/*" #inputImagen hidden (change)="onImagenSeleccionada($event)">
 
-        <div class="seccion-bloque lista-dinamica">
-            <h3>Preparación</h3>
+        <button type="button" class="btn-cambiar-foto" (click)="inputImagen.click()">Cambiar foto</button>
 
-            <div class="fila-paso">
-                <span class="paso-numero">1</span>
-                <textarea rows="2">Calienta el comal a fuego medio-alto. Unta el asiento en ambos lados...</textarea>
-            </div>
+      </div>
 
-            <div class="fila-paso">
-                <span class="paso-numero">2</span>
-                <textarea
-                    rows="2">Tuesta la tlayuda en el comal por 3 minutos por lado hasta que esté crujiente.</textarea>
-            </div>
+    </div>
 
-            <button class="btn-agregar">+ Agregar paso</button>
-        </div>
 
-        <div class="button">
-            <input type="submit" value="Publicar">
-        </div>
 
-    </form>
+    <div class="campo-grupo">
+
+      <label>Nombre de la receta</label>
+
+      <input type="text" [(ngModel)]="titulo" name="titulo" required>
+
+    </div>
+
+
+
+    <div class="campo-grupo">
+
+      <label>Descripción</label>
+
+      <input type="text" [(ngModel)]="descripcion" name="descripcion" required>
+
+    </div>
+
+
+
+    <div class="campo-grupo">
+
+      <label>Tiempo aproximado</label>
+
+      <input type="text" [(ngModel)]="tiempoAproximado" name="tiempo" placeholder="Ej. 40 min" required>
+
+    </div>
+
+
+
+    <div class="campo-grupo">
+
+      <label>Dificultad</label>
+
+      <select [(ngModel)]="dificultad" name="dificultad" required>
+
+        <option value="" disabled selected>Selecciona una opción</option>
+
+        <option value="Fácil">Fácil</option>
+
+        <option value="Intermedio">Intermedio</option>
+
+        <option value="Difícil">Difícil</option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="campo-grupo">
+
+      <label>Porciones</label>
+
+      <select [(ngModel)]="porciones" name="porciones" required>
+
+        <option [ngValue]="null" disabled selected>Selecciona</option>
+
+        <option *ngFor="let n of [1,2,3,4,5,6,7,8,9,10,12]" [ngValue]="n">{{ n }}</option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="campo-grupo">
+
+      <label>Categoría</label>
+
+      <input type="text" [(ngModel)]="categoria" name="categoria" placeholder="Ej. Mexicana" required>
+
+    </div>
+
+
+
+    <div class="campo-grupo momento-dia">
+
+      <label>Momento del día</label>
+
+      <select [(ngModel)]="momentoDia" name="momentodia" required>
+
+        <option value="" disabled selected>Selecciona una opción</option>
+
+        <option value="Desayuno">Desayuno</option>
+
+        <option value="Almuerzo">Almuerzo</option>
+
+        <option value="Comida principal">Comida principal</option>
+
+        <option value="Merienda">Merienda</option>
+
+        <option value="Cena">Cena</option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="campo-grupo tipo-platillo">
+
+      <label>Tipo de platillo</label>
+
+      <input type="text" [(ngModel)]="tipoPlatillo" name="tipoplatillo" placeholder="Ej. Típico" required>
+
+    </div>
+
+
+
+      <div class="seccion-bloque lista-dinamica">
+
+    <h3>Ingredientes</h3>
+
+
+
+    <div class="fila-dinamica" *ngFor="let ing of ingredientes; let i = index; trackBy: trackByIndex">
+
+      <input type="text" class="ingrediente-nombre" placeholder="Nombre"
+
+        [(ngModel)]="ing.nombre" [name]="'ing-nombre-' + i">
+
+      <input type="text" class="ingrediente-cantidad" placeholder="Cantidad"
+
+        [(ngModel)]="ing.cantidad" [name]="'ing-cantidad-' + i">
+
+      <button type="button" class="btn-eliminar" (click)="eliminarIngrediente(i)">-</button>
+
+    </div>
+
+
+
+    <button type="button" class="btn-agregar" (click)="agregarIngrediente()">+ Agregar ingrediente</button>
+
+  </div>
+
+
+
+  <div class="seccion-bloque lista-dinamica">
+
+    <h3>Preparación</h3>
+
+
+
+    <div class="fila-paso" *ngFor="let paso of preparacion; let i = index; trackBy: trackByIndex">
+
+      <span class="paso-numero">{{ i + 1 }}</span>
+
+      <textarea rows="2" [(ngModel)]="preparacion[i]" [name]="'paso-' + i"></textarea>
+
+      <button type="button" class="btn-eliminar" (click)="eliminarPaso(i)">-</button>
+
+    </div>
+
+
+
+    <button type="button" class="btn-agregar" (click)="agregarPaso()">+ Agregar paso</button>
+
+  </div>
+
+
+
+    <div class="button">
+
+      <input type="submit" [value]="enviando() ? 'Publicando...' : 'Publicar'" [disabled]="enviando()">
+
+    </div>
+
+
+
+  </form>
+
 </div>

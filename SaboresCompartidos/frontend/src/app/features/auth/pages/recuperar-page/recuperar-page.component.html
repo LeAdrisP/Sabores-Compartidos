@@ -1,51 +1,76 @@
 <div class="screen-login">
-  
-    <!-- HERO BANNER (Se mantiene idéntico para consistencia visual) -->
-    <div class="login-hero">
-      <div class="login-hero-text">
-        <h1>Sabores<br>compartidos</h1>
-        <p>Un recetario hecho entre todos</p>
-      </div>
+
+  <div class="login-hero">
+    <div class="login-hero-text">
+      <h1>Sabores<br>compartidos</h1>
+      <p>Un recetario hecho entre todos</p>
     </div>
-  
-    <!-- FORMULARIO DE RECUPERACIÓN -->
-    <div class="login-form">
+  </div>
+
+  <div class="login-form">
+
+    <div class="error-container" *ngIf="errorMessage()" style="color: #C4622D; font-size: 13px; font-weight: 700; margin-bottom: 12px; text-align: center;">
+      {{ errorMessage() }}
+    </div>
+
+    <!-- PASO 1: pedir correo -->
+    <ng-container *ngIf="paso() === 'correo'">
       <h2>Recuperar contraseña</h2>
       <p class="subtitle">Introduce tu correo para restablecer tu contraseña.</p>
-      
-      <!-- Input Correo -->
+
       <div class="field-group">
         <label class="field-label">Correo electrónico</label>
-        <input class="field-input" type="email" placeholder="tu@correo.com" />
+        <input class="field-input" type="email"
+          [ngModel]="correo()" (ngModelChange)="correo.set($event)"
+          placeholder="tu@correo.com" />
       </div>
-      
-      <!-- Botón Principal de Envío -->
-      <button class="btn-primary" (click)="enviarCodigo()">Enviar codigo de verificación</button>
-      
-      <!-- Contador de Reenvío -->
-      <p class="counter-text">Reenviar el codigo: <span class="highlight">60s</span></p>
-      
-      <!-- Sección de Código de Verificación -->
+
+      <button class="btn-primary" (click)="enviarCodigo()">Enviar código de verificación</button>
+    </ng-container>
+
+    <!-- PASO 2: ingresar código -->
+    <ng-container *ngIf="paso() === 'codigo'">
+      <h2>Verifica tu código</h2>
+      <p class="counter-text">Reenviar el código: <span class="highlight">{{ contador() }}s</span></p>
+
       <div class="verification-zone">
         <p class="verification-instruction">
-          Por favor introduzca el código que fue enviado a su correo electronico.
+          Por favor introduzca el código que fue enviado a su correo electrónico.
         </p>
-        
-        <!-- Bloque de 6 Inputs Independientes -->
+
         <div class="code-inputs-container">
-          <input type="text" maxLength="1" class="code-input" value="1" />
-          <input type="text" maxLength="1" class="code-input" value="2" />
-          <input type="text" maxLength="1" class="code-input" value="3" />
-          <input type="text" maxLength="1" class="code-input" value="4" />
-          <input type="text" maxLength="1" class="code-input" value="5" />
-          <input type="text" maxLength="1" class="code-input" value="6" />
+          <input #d0 type="text" maxlength="1" class="code-input" (input)="d1.focus()" />
+          <input #d1 type="text" maxlength="1" class="code-input" (input)="d2.focus()" />
+          <input #d2 type="text" maxlength="1" class="code-input" (input)="d3.focus()" />
+          <input #d3 type="text" maxlength="1" class="code-input" (input)="d4.focus()" />
+          <input #d4 type="text" maxlength="1" class="code-input" (input)="d5.focus()" />
+          <input #d5 type="text" maxlength="1" class="code-input" />
         </div>
+
+        <button class="btn-primary" (click)="confirmarCodigo([d0.value, d1.value, d2.value, d3.value, d4.value, d5.value])">
+          Confirmar código
+        </button>
       </div>
-  
-      <!-- Enlace para volver -->
-      <div class="switch-auth">
-        ¿Recordaste tu contraseña? <span (click)="volverAlLogin()">Inicia sesión</span>
+    </ng-container>
+
+    <!-- PASO 3: nueva contraseña -->
+    <ng-container *ngIf="paso() === 'nueva'">
+      <h2>Nueva contraseña</h2>
+      <p class="subtitle">Ingresa tu nueva contraseña.</p>
+
+      <div class="field-group">
+        <label class="field-label">Nueva contraseña</label>
+        <input class="field-input" type="password"
+          [ngModel]="nuevaContrasena()" (ngModelChange)="nuevaContrasena.set($event)"
+          placeholder="••••••••" />
       </div>
+
+      <button class="btn-primary" (click)="restablecerContrasena()">Guardar nueva contraseña</button>
+    </ng-container>
+
+    <div class="switch-auth">
+      ¿Recordaste tu contraseña? <span (click)="volverAlLogin()">Inicia sesión</span>
     </div>
-  
   </div>
+
+</div>

@@ -12,7 +12,7 @@
 
       <div class="avatar-edit-section">
         <div class="profile-avatar-circle">
-          {{ iniciales || 'US' }}
+          {{ iniciales() || 'US' }}
           <div class="camera-badge">■</div>
         </div>
         <span class="change-photo-link">Cambiar foto</span>
@@ -25,28 +25,28 @@
         <div class="field-group">
           <label class="field-label">Nombre</label>
           <input class="field-input" type="text"
-            [(ngModel)]="nombre"
+            [ngModel]="nombre()" (ngModelChange)="nombre.set($event)"
             placeholder="Ej. Ana García" />
         </div>
 
         <div class="field-group">
           <label class="field-label">Nombre del usuario</label>
           <input class="field-input" type="text"
-            [(ngModel)]="username"
+            [ngModel]="username()" (ngModelChange)="username.set($event)"
             placeholder="Ej. @anag" />
         </div>
 
         <div class="field-group">
           <label class="field-label">Biografía</label>
           <textarea class="field-textarea"
-            [(ngModel)]="bio"
+            [ngModel]="bio()" (ngModelChange)="bio.set($event)"
             placeholder="Ej. Amante de la cocina tradicional mexicana..."></textarea>
         </div>
 
         <div class="field-group">
           <label class="field-label">Ubicación</label>
           <input class="field-input" type="text"
-            [(ngModel)]="ubicacion"
+            [ngModel]="ubicacion()" (ngModelChange)="ubicacion.set($event)"
             placeholder="Ej. Oaxaca, México" />
         </div>
 
@@ -56,32 +56,72 @@
           <div class="field-group input-half">
             <label class="field-label">Correo electrónico</label>
             <input class="field-input" type="email" disabled
-              [value]="''" placeholder="tu@correo.com" />
+              [value]="correo()" placeholder="tu@correo.com" />
           </div>
-          <button class="btn-action-inline">Confirmar correo</button>
+          <button class="btn-action-inline" (click)="enviarCodigoCorreo()">Enviar código</button>
         </div>
 
+        <p *ngIf="mensajeCorreoOk()" style="color: #2E7D32; font-size: 13px; font-weight: 600; margin-top: -8px;">
+          {{ mensajeCorreoOk() }}
+        </p>
+        <p *ngIf="errorCorreo()" style="color: #C4622D; font-size: 13px; font-weight: 600; margin-top: -8px;">
+          {{ errorCorreo() }}
+        </p>
+
         <div class="field-group">
-          <label class="field-label">Contraseña actual</label>
-          <input class="field-input" type="password" placeholder="••••••••" />
+          <label class="field-label">Código de verificación</label>
+          <input class="field-input" type="text"
+            [disabled]="!codigoCorreoEnviado()"
+            [ngModel]="codigoCorreo()" (ngModelChange)="codigoCorreo.set($event)"
+            placeholder="Ingresa el código de 6 dígitos" />
         </div>
+
+        <button class="btn-action-full"
+          [disabled]="!codigoCorreoEnviado()"
+          (click)="confirmarCodigoCorreo()">
+          Confirmar código
+        </button>
 
         <div class="toggle-row">
           <div class="toggle-info">
             <span class="toggle-title">Mantener sesión iniciada</span>
             <span class="toggle-subtitle">No cerrar al salir de la app</span>
           </div>
-          <div class="toggle-switch" [class.on]="isSessionActive" (click)="toggleSession()"></div>
+          <div class="toggle-switch" [class.on]="isSessionActive()" (click)="toggleSession()"></div>
         </div>
 
         <div class="section-divider-label">Cambiar contraseña</div>
 
-        <div class="field-group">
-          <label class="field-label">Nueva contraseña</label>
-          <input class="field-input" type="password" placeholder="Ingrese la nueva contraseña" />
+        <div class="field-group-row">
+          <div class="field-group input-half">
+            <label class="field-label">Contraseña actual</label>
+            <input class="field-input" type="password"
+              [ngModel]="contrasenaActual()" (ngModelChange)="contrasenaActual.set($event)"
+              placeholder="••••••••" />
+          </div>
+          <button class="btn-action-inline" (click)="confirmarContrasenaActual()">Validar</button>
         </div>
 
-        <button class="btn-action-full">Enviar código de verificación</button>
+        <p *ngIf="mensajeValidacion()" style="color: #2E7D32; font-size: 13px; font-weight: 600; margin-top: -8px;">
+          {{ mensajeValidacion() }}
+        </p>
+        <p *ngIf="errorValidacion()" style="color: #C4622D; font-size: 13px; font-weight: 600; margin-top: -8px;">
+          {{ errorValidacion() }}
+        </p>
+
+        <div class="field-group">
+          <label class="field-label">Nueva contraseña</label>
+          <input class="field-input" type="password"
+            [disabled]="!contrasenaValidada()"
+            [ngModel]="nuevaContrasena()" (ngModelChange)="nuevaContrasena.set($event)"
+            placeholder="Ingrese la nueva contraseña" />
+        </div>
+
+        <button class="btn-action-full"
+          [disabled]="!contrasenaValidada()"
+          (click)="guardarNuevaContrasena()">
+          Guardar nueva contraseña
+        </button>
 
       </div>
 

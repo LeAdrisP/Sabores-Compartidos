@@ -1,111 +1,222 @@
 <div class="detail-screen-wrapper">
+
   <div class="phone-canvas">
+
     <div class="screen-detail">
-      
+
+     
+
       <div class="detail-top-actions">
+
         <button class="action-circle-btn" (click)="volver()">←</button>
+
         <button class="action-circle-btn" (click)="descargarPDF()" title="Descargar receta como PDF">📥</button>
+
         <button class="action-circle-btn font-black">■</button>
+
       </div>
+
+
 
       <div class="recipe-hero-image-container">
-        <img class="recipe-hero-image" 
-             src="https://www.bettycrocker.lat/mx/wp-content/uploads/sites/2/2020/12/BCmexico-recipe-pastel-maravilla-de-chocolate.png" 
+
+        <img class="recipe-hero-image"
+
+             src="https://www.bettycrocker.lat/mx/wp-content/uploads/sites/2/2020/12/BCmexico-recipe-pastel-maravilla-de-chocolate.png"
+
              alt="Tlayudas oaxaqueñas">
+
       </div>
 
+
+
       <div class="detail-content-body">
-        
+
+       
+
         <div class="recipe-title-row">
+
           <h2 class="recipe-title">Tlayudas oaxaqueñas</h2>
+
           <div class="likes-badge">
+
             <span class="icon-square">■</span>
+
             <span class="likes-count">34</span>
+
           </div>
+
         </div>
 
+
+
         <p class="recipe-meta-author">
+
           por <span class="author-highlight">Ana García</span> · 04 de mayo de 2026
+
         </p>
+
+
 
         <mat-chip-set class="recipe-chips-container" aria-label="Información de receta">
+
           <mat-chip class="custom-chip accent-bg">Medio</mat-chip>
+
           <mat-chip class="custom-chip">
+
             <span class="icon-inline">■</span> 40 min
+
           </mat-chip>
+
           <mat-chip class="custom-chip">
+
             <span class="icon-inline">■</span> 4 porciones
+
           </mat-chip>
+
           <mat-chip class="custom-chip">Mexicana</mat-chip>
+
           <mat-chip class="custom-chip">Comida</mat-chip>
+
           <mat-chip class="custom-chip">Cena</mat-chip>
+
           <mat-chip class="custom-chip">Carne</mat-chip>
+
           <mat-chip class="custom-chip">Antojitos</mat-chip>
+
         </mat-chip-set>
 
+
+
         <p class="recipe-description">
+
           La tlayuda es uno de los platillos más representativos de Oaxaca. Una tortilla crujiente cubierta de asiento, frijoles negros y tus toppings favoritos.
+
         </p>
+
+
 
         <hr class="section-divider">
 
-        <div class="recipe-section">
-          <h3 class="section-title">Ingredientes</h3>
-          <ul class="ingredients-list">
-            <li>
-              <span class="bullet-orange">•</span>
-              <span class="ingredient-name">Tortilla tlayuda</span>
-              <span class="ingredient-amount">2 piezas</span>
-            </li>
-            <li>
-              <span class="bullet-orange">•</span>
-              <span class="ingredient-name">Frijoles negros refritos</span>
-              <span class="ingredient-amount">1 taza</span>
-            </li>
-            <li>
-              <span class="bullet-orange">•</span>
-              <span class="ingredient-name">Asiento (manteca de cerdo)</span>
-              <span class="ingredient-amount">3 cucharadas</span>
-            </li>
-            <li>
-              <span class="bullet-orange">•</span>
-              <span class="ingredient-name">Quesillo oaxaqueño</span>
-              <span class="ingredient-amount">150 gramos</span>
-            </li>
-            <li>
-              <span class="bullet-orange">•</span>
-              <span class="ingredient-name">Tasajo o cecina (opcional)</span>
-              <span class="ingredient-amount">200 gramos</span>
-            </li>
-          </ul>
-        </div>
+
 
         <div class="recipe-section">
-          <h3 class="section-title">Preparación</h3>
-          <ol class="steps-list">
+
+          <h3 class="section-title">Ingredientes</h3>
+
+          <ul class="ingredients-list">
+
             <li>
-              <div class="step-number">1</div>
-              <p class="step-text">Calienta el comal a fuego medio-alto. Unta el asiento en ambos lados de la tlayuda.</p>
+
+              <span class="bullet-orange">•</span>
+
+              <span class="ingredient-name">Tortilla tlayuda</span>
+
+              <span class="ingredient-amount">2 piezas</span>
+
             </li>
+
             <li>
-              <div class="step-number">2</div>
-              <p class="step-text">Tuesta la tlayuda en el comal por 3 minutos por lado hasta que esté crujiente.</p>
+
+              <span class="bullet-orange">•</span>
+
+              <span class="ingredient-name">Frijoles negros refritos</span>
+
+              <span class="ingredient-amount">1 taza</span>
+
             </li>
+
             <li>
-              <div class="step-number">3</div>
-              <p class="step-text">Extiende los frijoles refritos. Agrega el quesillo desmenuzado y la carne.</p>
+
+              <span class="bullet-orange">•</span>
+
+              <span class="ingredient-name">Asiento (manteca de cerdo)</span>
+
+              <span class="ingredient-amount">3 cucharadas</span>
+
             </li>
+
             <li>
-              <div class="step-number">4</div>
-              <p class="step-text">Sirve de inmediato con salsa verde, cebolla y limón al gusto. ¡Buen provecho!</p>
+
+              <span class="bullet-orange">•</span>
+
+              <span class="ingredient-name">Quesillo oaxaqueño</span>
+
+              <span class="ingredient-amount">150 gramos</span>
+
             </li>
-          </ol>
+
+            <li>
+
+              <span class="bullet-orange">•</span>
+
+              <span class="ingredient-name">Tasajo o cecina (opcional)</span>
+
+              <span class="ingredient-amount">200 gramos</span>
+
+            </li>
+
+          </ul>
+
         </div>
+
+
+
+        <div class="recipe-section">
+
+          <h3 class="section-title">Preparación</h3>
+
+          <ol class="steps-list">
+
+            <li>
+
+              <div class="step-number">1</div>
+
+              <p class="step-text">Calienta el comal a fuego medio-alto. Unta el asiento en ambos lados de la tlayuda.</p>
+
+            </li>
+
+            <li>
+
+              <div class="step-number">2</div>
+
+              <p class="step-text">Tuesta la tlayuda en el comal por 3 minutos por lado hasta que esté crujiente.</p>
+
+            </li>
+
+            <li>
+
+              <div class="step-number">3</div>
+
+              <p class="step-text">Extiende los frijoles refritos. Agrega el quesillo desmenuzado y la carne.</p>
+
+            </li>
+
+            <li>
+
+              <div class="step-number">4</div>
+
+              <p class="step-text">Sirve de inmediato con salsa verde, cebolla y limón al gusto. ¡Buen provecho!</p>
+
+            </li>
+
+          </ol>
+
+        </div>
+
+
 
       </div>
 
+
+
       <div class="bottom-spacer"></div>
 
+
+
     </div>
+
   </div>
+
 </div>
+

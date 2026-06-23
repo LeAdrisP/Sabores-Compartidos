@@ -1,8 +1,10 @@
-import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core'; 
+// 1. Asegúrate de importar 'OnDestroy' y 'Subscription'
+import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs'; // 👈 Agregado
 
 @Component({
   selector: 'app-perfil-page',
@@ -11,40 +13,43 @@ import { filter } from 'rxjs/operators';
   templateUrl: './perfil-page.component.html',
   styleUrls: ['./perfil-page.component.scss']
 })
-export class PerfilPageComponent implements OnInit {
+export class PerfilPageComponent implements OnInit, OnDestroy { // 👈 2. Implementamos OnDestroy
   private router = inject(Router);
   private http = inject(HttpClient);
-  private cdr = inject(ChangeDetectorRef);
 
   private readonly API_URL = 'https://remote-boxcar-morbidity.ngrok-free.dev/';
   
-  nombre: string = 'Usuario';
-  username: string = '@usuario';
-  ubicacion: string = '';
-  bio: string = '';
-  iniciales: string = 'US';
-  recetas: number = 0;
-  seguidores: number = 0;
-  siguiendo: number = 0;
+  // Guardaremos la suscripción aquí para poder apagarla
+  private routerSubscription!: Subscription; 
 
-  /**
-   * Carga el perfil al iniciar y se suscribe a los eventos de navegación
-   * para recargar los datos cada vez que el usuario regresa a esta pantalla.
-   */
+  nombre = signal('Usuario');
+  username = signal('@usuario');
+  ubicacion = signal('');
+  bio = signal('');
+  iniciales = signal('US');
+  recetas = signal(0);
+  seguidores = signal(0);
+  siguiendo = signal(0);
+
   ngOnInit(): void {
     this.cargarPerfil();
-    
-    this.router.events.pipe(
+
+    // 👈 3. Guardamos la suscripción en nuestra variable
+    this.routerSubscription = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.cargarPerfil();
     });
   }
 
-  /**
-   * Obtiene los datos del perfil del usuario desde el backend usando el ID
-   * almacenado en localStorage. Si no hay sesión activa, redirige al login.
-   */
+  // 👈 4. ¡MÁGIA! Al salir del perfil, apagamos el escuchador por completo
+  ngOnDestroy(): void {
+    if (this.routerSubscription) {
+      console.log('Apagando escuchadores del perfil de forma limpia...');
+      this.routerSubscription.unsubscribe();
+    }
+  }
+
   cargarPerfil(): void {
     const usuarioId = localStorage.getItem('usuario_id');
     if (!usuarioId) {
@@ -53,18 +58,17 @@ export class PerfilPageComponent implements OnInit {
     }
 
     const headers = new HttpHeaders({ 'ngrok-skip-browser-warning': 'true' });
-    
+
     this.http.get(`${this.API_URL}api/usuarios/${usuarioId}`, { headers }).subscribe({
       next: (data: any) => {
-        this.nombre = data.nombre || 'Usuario';
-        this.username = data.nombre_usuario || '@usuario';
-        this.ubicacion = data.ubicacion || '';
-        this.bio = data.biografia || '';
-        this.recetas = data.recetas || 0;
-        this.seguidores = data.seguidores || 0;
-        this.siguiendo = data.seguiendo || 0;
-        this.iniciales = this.obtenerIniciales(this.nombre);
-        this.cdr.detectChanges(); 
+        this.nombre.set(data.nombre || 'Usuario');
+        this.username.set(data.nombre_usuario || '@usuario');
+        this.ubicacion.set(data.ubicacion || '');
+        this.bio.set(data.biografia || '');
+        this.recetas.set(data.recetas || 0);
+        this.seguidores.set(data.seguidores || 0);
+        this.siguiendo.set(data.siguiendo || 0);
+        this.iniciales.set(this.obtenerIniciales(this.nombre()));
       },
       error: () => {
         console.error('No se pudo cargar el perfil');
@@ -72,24 +76,18 @@ export class PerfilPageComponent implements OnInit {
     });
   }
 
-  /**
-   * Genera las iniciales del avatar a partir del nombre completo del usuario.
-   * Devuelve 'US' como valor por defecto si el nombre está vacío.
-   */
   private obtenerIniciales(nombre: string): string {
     if (!nombre) return 'US';
     return nombre.split(' ').map(p => p[0]).join('').toUpperCase().slice(0, 2);
   }
 
-  /** Elimina la sesión del localStorage y redirige a la pantalla de login */
   cerrarSesion(): void {
-    localStorage.removeItem('usuario_id');
-    localStorage.removeItem('correo');
+    console.log('Borrando credenciales y cerrando sesión...');
+    localStorage.clear(); // Limpieza absoluta y segura
     this.router.navigate(['/login']);
   }
 
-  /** Navega a la pantalla de edición de perfil */
   navigateToEditarPerfil(): void {
     this.router.navigate(['/editar-perfil']);
   }
-}
+} 

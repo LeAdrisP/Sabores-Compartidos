@@ -1,4 +1,6 @@
 import firebase_admin
+import random
+import datetime
 from firebase_admin import credentials
 from firebase_admin import firestore
 
@@ -84,4 +86,152 @@ def actualizar_usuario(usuario_id: str, datos: dict) -> bool:
     except Exception as e:
         print(f"Error al actualizar usuario: {e}")
         return False
-    
+
+def generar_y_guardar_codigo(correo: str) -> str | None:
+    """
+    Genera un código de 6 dígitos, lo guarda en Firestore junto al usuario
+    con su fecha de expiración (10 minutos), y lo retorna para enviarlo por correo.
+    """
+    usuario = buscar_usuario_por_correo(correo)
+    if usuario is None:
+        return None
+
+    codigo = str(random.randint(100000, 999999))
+    expiracion = datetime.datetime.now() + datetime.timedelta(minutes=10)
+
+    db.collection("usuarios").document(usuario["id"]).update({
+        "codigo_verificacion": codigo,
+        "codigo_expiracion": expiracion.isoformat()
+    })
+
+    return codigo
+
+
+def validar_codigo(correo: str, codigo_ingresado: str) -> dict | None:
+    """
+    Verifica que el código ingresado coincida y no haya expirado.
+    Retorna los datos del usuario si es válido, None si no.
+    """
+    usuario = buscar_usuario_por_correo(correo)
+    if usuario is None:
+        return None
+
+    codigo_guardado = usuario.get("codigo_verificacion")
+    expiracion_str = usuario.get("codigo_expiracion")
+
+    if not codigo_guardado or not expiracion_str:
+        return None
+
+    expiracion = datetime.datetime.fromisoformat(expiracion_str)
+    if datetime.datetime.now() > expiracion:
+        return None
+
+    if codigo_guardado != codigo_ingresado:
+        return None
+
+    return usuario
+
+
+def actualizar_contrasena(usuario_id: str, nueva_contrasena: str) -> bool:
+    """
+    Actualiza la contraseña del usuario y limpia el código de verificación usado.
+    """
+    try:
+        db.collection("usuarios").document(usuario_id).update({
+            "contrasena": nueva_contrasena,
+            "codigo_verificacion": None,
+            "codigo_expiracion": None
+        })
+        return True
+    except Exception as e:
+        print(f"Error al actualizar contraseña: {e}")
+        return False   
+
+def validar_contrasena_actual(usuario_id: str, contrasena: str) -> bool:
+    """
+    Verifica que la contraseña ingresada coincida con la almacenada
+    para el usuario, usado antes de permitir el cambio de contraseña.
+    """
+    try:
+        doc = db.collection("usuarios").document(usuario_id).get()
+        if not doc.exists:
+            return False
+        data = doc.to_dict()
+        return data.get("contrasena") == contrasena
+    except Exception as e:
+        print(f"Error al validar contraseña: {e}")
+        return False
+
+
+def cambiar_contrasena(usuario_id: str, nueva_contrasena: str) -> bool:
+    """
+    Actualiza la contraseña del usuario directamente desde Editar Perfil,
+    sin requerir código de verificación por correo.
+    """
+    try:
+        db.collection("usuarios").document(usuario_id).update({
+            "contrasena": nueva_contrasena
+        })
+        return True
+    except Exception as e:
+        print(f"Error al cambiar contraseña: {e}")
+        return False
+
+def generar_codigo_verificacion_correo(usuario_id: str) -> str | None:
+    """
+    Genera un código de 6 dígitos para verificar el correo del usuario
+    y lo guarda en Firestore con 10 minutos de expiración.
+    """
+    try:
+        doc = db.collection("usuarios").document(usuario_id).get()
+        if not doc.exists:
+            return None
+
+        codigo = str(random.randint(100000, 999999))
+        expiracion = datetime.datetime.now() + datetime.timedelta(minutes=10)
+
+        db.collection("usuarios").document(usuario_id).update({
+            "codigo_verificacion_correo": codigo,
+            "codigo_verificacion_correo_expiracion": expiracion.isoformat()
+        })
+
+        return codigo
+    except Exception as e:
+        print(f"Error al generar código de verificación de correo: {e}")
+        return None
+
+
+def validar_codigo_verificacion_correo(usuario_id: str, codigo_ingresado: str) -> bool:
+    """
+    Verifica que el código ingresado coincida con el guardado y no haya expirado.
+    Si es válido, marca el correo como verificado.
+    """
+    try:
+        doc = db.collection("usuarios").document(usuario_id).get()
+        if not doc.exists:
+            return False
+
+        data = doc.to_dict()
+        codigo_guardado = data.get("codigo_verificacion_correo")
+        expiracion_str = data.get("codigo_verificacion_correo_expiracion")
+
+        if not codigo_guardado or not expiracion_str:
+            return False
+
+        expiracion = datetime.datetime.fromisoformat(expiracion_str)
+        if datetime.datetime.now() > expiracion:
+            return False
+
+        if codigo_guardado != codigo_ingresado:
+            return False
+
+        db.collection("usuarios").document(usuario_id).update({
+            "correo_verificado": True,
+            "codigo_verificacion_correo": None,
+            "codigo_verificacion_correo_expiracion": None
+        })
+
+        return True
+    except Exception as e:
+        print(f"Error al validar código de correo: {e}")
+        return False

@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from routes.auth_routes import router as auth_router
 from routes.usuarios_routes import router as usuarios_router
+from routes.recetas_routes import router as recetas_router
 
 app = FastAPI(
     title="API de Sabores Compartidos",
@@ -19,7 +20,8 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
-app.include_router(usuarios_router)  # 👈 ahora sí, después de crear app
+app.include_router(usuarios_router)
+app.include_router(recetas_router)
 
 @app.get("/")
 def inicio():

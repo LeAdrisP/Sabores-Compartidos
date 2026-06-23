@@ -15,3 +15,24 @@ class ActualizarUsuario(BaseModel):
     nombre_usuario: Optional[str] = None
     biografia: Optional[str] = None
     ubicacion: Optional[str] = None
+
+class SolicitarCodigo(BaseModel):
+    correo: str
+
+class ValidarCodigo(BaseModel):
+    correo: str
+    codigo: str
+
+class RestablecerContrasena(BaseModel):
+    correo: str
+    codigo: str
+    nueva_contrasena: str
+
+class ValidarContrasenaActual(BaseModel):
+    contrasena: str
+
+class CambiarContrasena(BaseModel):
+    nueva_contrasena: str
+
+class ValidarCodigoCorreo(BaseModel):
+    codigo: str

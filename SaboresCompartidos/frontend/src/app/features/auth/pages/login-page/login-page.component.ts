@@ -1,13 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
@@ -17,14 +17,14 @@ export class LoginPageComponent {
 
   private readonly API_URL = 'https://remote-boxcar-morbidity.ngrok-free.dev/';
 
-  correo: string = '';
-  contrasena: string = '';
-  isRemembered: boolean = false;
-  errorMessage: string = '';
+  correo = signal('');
+  contrasena = signal('');
+  isRemembered = signal(false);
+  errorMessage = signal('');
 
   /** Alterna el estado del checkbox "Mantener sesión iniciada" */
   toggleRemember(): void {
-    this.isRemembered = !this.isRemembered;
+    this.isRemembered.set(!this.isRemembered());
   }
 
   /**
@@ -33,25 +33,26 @@ export class LoginPageComponent {
    * y redirige a la pantalla de explorar.
    */
   onLoginSubmit(): void {
-    this.errorMessage = '';
+    console.log('Intentando iniciar sesión con:', this.correo());
+    this.errorMessage.set('');
 
-    if (!this.correo || !this.contrasena) {
-      this.errorMessage = 'Por favor, llena todos los campos.';
+    if (!this.correo() || !this.contrasena()) {
+      this.errorMessage.set('Por favor, llena todos los campos.');
       return;
     }
 
-    const body = { correo: this.correo, contrasena: this.contrasena };
+    const body = { correo: this.correo(), contrasena: this.contrasena() };
     const headers = new HttpHeaders({ 'ngrok-skip-browser-warning': 'true' });
 
     this.http.post(`${this.API_URL}api/auth/login`, body, { headers }).subscribe({
       next: (response: any) => {
         console.log('Login exitoso', response);
-        localStorage.setItem('usuario_id', response.usuario_id); 
-        localStorage.setItem('correo', this.correo);             
+        localStorage.setItem('usuario_id', response.usuario_id);
+        localStorage.setItem('correo', this.correo());
         this.router.navigate(['/explorar']);
       },
-      error: (err) => {
-        this.errorMessage = 'Correo o contraseña incorrecta.';
+      error: () => {
+        this.errorMessage.set('Correo o contraseña incorrecta.');
       }
     });
   }
@@ -62,7 +63,14 @@ export class LoginPageComponent {
   }
 
   /** Redirige a la pantalla de recuperación de contraseña */
-  navigateToRecuperar(): void {
-    this.router.navigate(['/recuperar']);
+navigateToRecuperar(event: Event): void {
+    // 🟩 ¡MÁGIA! Detiene la multiplicación y el burbujeo del clic en el DOM
+    event.stopPropagation();
+    event.preventDefault();
+
+    console.log('Redirigiendo a la pantalla de recuperación limpiamente...');
+    this.router.navigate(['/recuperar']).catch(err => {
+      console.error('Error al intentar navegar a /recuperar:', err);
+    });
   }
 }
