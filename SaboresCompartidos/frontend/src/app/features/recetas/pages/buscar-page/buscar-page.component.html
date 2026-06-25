@@ -1,40 +1,101 @@
 <div class="buscar-screen">
   <header class="header-buscar">
     <h1>¿Qué cocinas hoy?</h1>
-    
+
     <div class="search-box">
       <span class="search-icon">🔍</span>
-      <input 
-        type="text" 
-        [(ngModel)]="searchText" 
-        (input)="filtrarRecetas()" 
+      <input
+        type="text"
+        [ngModel]="searchText()"
+        (ngModelChange)="searchText.set($event)"
+        (input)="buscarRecetas()"
         placeholder="Buscar receta por nombre..." />
     </div>
 
     <div class="chips-container">
-      <button class="chip" [class.active]="filtroActivo === 'Todas'" (click)="setFiltro('Todas')">Todas</button>
-      <button class="chip" [class.active]="filtroActivo === 'Fácil'" (click)="setFiltro('Fácil')">Fácil</button>
-      <button class="chip" [class.active]="filtroActivo === 'Medio'" (click)="setFiltro('Medio')">Medio</button>
-      <button class="chip" [class.active]="filtroActivo === 'Difícil'" (click)="setFiltro('Difícil')">Difícil</button>
+      <button class="chip active-todas" (click)="limpiarTodo()">Todas</button>
+      <button class="chip" (click)="abrirFiltros()">⚙️ Filtros</button>
+    </div>
+
+    <div class="filtros-aplicados" *ngIf="filtrosAplicados().length > 0">
+      <span class="filtro-chip" *ngFor="let f of filtrosAplicados()">
+        <span class="filtro-x" (click)="quitarFiltro(f)">✕</span>
+        {{ f.etiqueta }}
+      </span>
     </div>
   </header>
 
   <main class="resultados-container">
-    <p class="contador">{{ recetasFiltradas.length }} recetas encontradas</p>
+    <p class="contador">{{ recetas().length }} receta{{ recetas().length === 1 ? '' : 's' }} encontrada{{ recetas().length === 1 ? '' : 's' }}</p>
 
-    <div class="receta-card" *ngFor="let receta of recetasFiltradas">
-      <div class="card-thumb" [style.backgroundColor]="receta.color || '#FDF3E7'"></div>
-      
-      <div class="card-info">
-        <h3>{{ receta.nombre }}</h3>
-        <p class="autor">por <span>{{ receta.autor }}</span> • {{ receta.dias || 'hace poco' }}</p>
-        
-        <div class="meta-row">
-          <span class="badge" [ngClass]="receta.dificultad.toLowerCase()">{{ receta.dificultad }}</span>
-          <span class="meta-item">⏱️ {{ receta.tiempo }}</span>
-          <span class="meta-item">🖤 {{ receta.likes }}</span>
-        </div>
-      </div>
+    <p *ngIf="cargando()" style="text-align:center; padding: 24px;">Buscando...</p>
+
+    <p *ngIf="!cargando() && recetas().length === 0" style="text-align:center; color:#999; padding: 24px;">
+      No se encontraron recetas con esos criterios.
+    </p>
+
+    <div class="recetas-grid" *ngIf="!cargando() && recetas().length > 0">
+      <app-card *ngFor="let receta of recetas()" [receta]="receta"></app-card>
     </div>
   </main>
+
+  <!-- MODAL EMERGENTE DE FILTROS -->
+  <div class="modal-overlay" *ngIf="modalFiltrosAbierto()" (click)="cerrarFiltros()">
+    <div class="modal-filtros" (click)="$event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="modal-header">
+        <h2>Filtros</h2>
+        <span class="limpiar-link" (click)="limpiarTodo()">Limpiar todo</span>
+      </div>
+
+      <div class="filtro-seccion">
+        <h3>Dificultad</h3>
+        <div class="opciones-row">
+          <button class="opcion-pill"
+            *ngFor="let op of opcionesDificultad"
+            [class.active]="dificultadSeleccionada() === op"
+            (click)="dificultadSeleccionada.set(op)">
+            {{ op }}
+          </button>
+        </div>
+      </div>
+
+      <div class="filtro-seccion">
+        <h3>Tiempo estimado</h3>
+        <div class="slider-row">
+          <span>5 min</span>
+          <input type="range" min="5" max="90" step="5"
+            [ngModel]="tiempoMaximo()" (ngModelChange)="tiempoMaximo.set($event)" />
+          <span>90 min</span>
+        </div>
+        <p class="slider-hint">Recetas que se preparan en {{ tiempoMaximo() }} minutos o menos</p>
+      </div>
+
+      <div class="filtro-seccion">
+        <h3>Categoría</h3>
+        <div class="opciones-row">
+          <button class="opcion-pill"
+            *ngFor="let op of opcionesCategoria"
+            [class.active]="categoriaSeleccionada() === op"
+            (click)="categoriaSeleccionada.set(op)">
+            {{ op }}
+          </button>
+        </div>
+      </div>
+
+      <div class="filtro-seccion">
+        <h3>Porciones</h3>
+        <div class="slider-row">
+          <span>{{ porcionesMin() }}</span>
+          <input type="range" min="1" max="6" step="1"
+            [ngModel]="porcionesMax()" (ngModelChange)="porcionesMax.set($event)" />
+          <span>{{ porcionesMax() }}</span>
+        </div>
+      </div>
+
+      <button class="btn-aplicar" (click)="aplicarFiltros()">Aplicar filtros</button>
+    </div>
+  </div>
+
 </div>

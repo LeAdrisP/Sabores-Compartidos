@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
 class ComentarioCreate(BaseModel):
-    receta_id: str      # a qué receta pertenece
-    usuario_id: str     # quién comenta
+    receta_id: str  
+    usuario_id: str    
     texto: str
 
 class Comentario(ComentarioCreate):

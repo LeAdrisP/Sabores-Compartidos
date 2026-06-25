@@ -1,118 +1,179 @@
-// Se importa el decorador Component para definir el componente
-// e inject para obtener servicios sin necesidad de utilizar un constructor.
-import { Component, inject } from '@angular/core';
-
-// CommonModule proporciona directivas básicas de Angular.
-// Location permite interactuar con el historial de navegación del navegador.
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-
-// Se importan módulos de Angular Material utilizados en la vista.
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-
-// Se importa la librería html2pdf, la cual permite convertir
-// elementos HTML en archivos PDF descargables.
 import html2pdf from 'html2pdf.js';
 
-// Decorador que define la configuración del componente.
+interface Ingrediente {
+  nombre: string;
+  cantidad: string;
+}
+
+interface Receta {
+  id: string;
+  usuario_id: string;
+  titulo: string;
+  descripcion: string;
+  autor_nombre: string;
+  fecha_creacion: string;
+  dificultad: string;
+  tiempo_aproximado: string;
+  porciones: number;
+  categoria: string;
+  momento_dia: string;
+  tipo_platillo: string;
+  imagen_url: string | null;
+  ingredientes: Ingrediente[];
+  preparacion: string[];
+  likes: number;
+}
+
 @Component({
-
-  // Nombre con el cual el componente puede utilizarse dentro de otras plantillas.
   selector: 'app-detalle-page',
-
-  // Indica que el componente es independiente.
   standalone: true,
-
-  // Módulos utilizados por la plantilla HTML.
-  imports: [
-    CommonModule,
-    MatChipsModule,
-    MatIconModule
-  ],
-
-  // Archivo HTML asociado al componente.
+  imports: [CommonModule, MatChipsModule, MatIconModule],
   templateUrl: './detalle-page.component.html',
-
-  // Archivo de estilos asociado.
   styleUrls: ['./detalle-page.component.scss']
 })
-export class DetallePageComponent {
+export class DetallePageComponent implements OnInit {
 
-  // Se obtiene una instancia del servicio Location.
-  // Este servicio permite manipular el historial de navegación del navegador.
   private location = inject(Location);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private http = inject(HttpClient);
 
-  /**
-   * Método encargado de regresar a la pantalla anterior.
-   * Utiliza el historial del navegador en lugar de navegar a una ruta específica.
-   */
+  private readonly API_URL = 'https://remote-boxcar-morbidity.ngrok-free.dev/';
+  private headers = new HttpHeaders({ 'ngrok-skip-browser-warning': 'true' });
+
+  readonly imagenDefault =
+    'https://www.bettycrocker.lat/mx/wp-content/uploads/sites/2/2020/12/BCmexico-recipe-pastel-maravilla-de-chocolate.png';
+
+  receta = signal<Receta | null>(null);
+  cargando = signal(true);
+  error = signal('');
+
+  // Carga detalle de receta
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.cargarReceta(id);
+      } else {
+        this.error.set('No se proporcionó un ID de receta.');
+        this.cargando.set(false);
+      }
+    });
+  }
+
+  // Obtiene receta por ID
+  cargarReceta(id: string): void {
+    this.cargando.set(true);
+    this.http.get<any>(
+      `${this.API_URL}api/recetas/${id}`,
+      { headers: this.headers }
+    ).subscribe({
+      next: (data) => {
+        this.receta.set(data);
+        this.cargando.set(false);
+      },
+      error: () => {
+        this.error.set('No se pudo cargar la receta.');
+        this.cargando.set(false);
+      }
+    });
+  }
+
+  // Calcula tiempo transcurrido
+  tiempoRelativo(): string {
+    const r = this.receta();
+    if (!r) return '';
+    const fecha = new Date(r.fecha_creacion);
+    const ahora = new Date();
+    const diffMin = Math.floor((ahora.getTime() - fecha.getTime()) / 60000);
+    const diffHoras = Math.floor(diffMin / 60);
+    const diffDias = Math.floor(diffHoras / 24);
+
+    if (diffMin < 1) return 'Hace un momento';
+    if (diffMin < 60) return `Hace ${diffMin} min`;
+    if (diffHoras < 24) return `Hace ${diffHoras} hora${diffHoras > 1 ? 's' : ''}`;
+    if (diffDias < 7) return `Hace ${diffDias} día${diffDias > 1 ? 's' : ''}`;
+
+    return fecha.toLocaleDateString('es-MX', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+  }
+
+  // Regresa a pantalla anterior
   volver(): void {
-
-    // Mensaje mostrado en consola para fines de depuración.
-    console.log('Regresando a la pantalla anterior en el historial...');
-
-    // Se retrocede una posición dentro del historial del navegador.
     this.location.back();
   }
 
-  /**
-   * Método encargado de convertir el contenido de la receta en un archivo PDF.
-   * La captura se realiza sobre el contenedor principal de la vista.
-   */
+  // Descarga receta en PDF
   descargarPDF(): void {
-
-    // Mensaje informativo para verificar que el proceso ha comenzado.
-    console.log('Iniciando descarga de la receta...');
-
-    // Se busca dentro del DOM el elemento que contiene toda la información de la receta.
+    const r = this.receta();
     const elemento = document.querySelector('.screen-detail') as HTMLElement;
+    if (!elemento) return;
 
-    // Se verifica que el elemento exista.
-    if (!elemento) {
-
-      // Si no existe, se informa del error y se detiene el proceso.
-      console.error('No se encontró la sección de la receta para exportar.');
-      return;
-    }
-
-    // Se define la configuración que tendrá el documento PDF.
     const opciones = {
-
-      // Margen del documento.
       margin: 5,
-
-      // Nombre con el que se descargará el archivo.
-      filename: 'Receta-Tlayudas-Oaxaqueñas.pdf',
-
-      // Configuración de la imagen utilizada durante la conversión.
-      image: {
-        type: 'jpeg',
-        quality: 0.98
-      },
-
-      // Configuración del motor html2canvas encargado de capturar la vista.
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        mediaType: 'print'
-      },
-
-      // Configuración del documento PDF generado.
-      jsPDF: {
-        unit: 'mm',
-        format: 'a4',
-        orientation: 'portrait'
-      }
-
+      filename: `Receta-${r?.titulo ?? 'receta'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, mediaType: 'print' },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     } as const;
 
-    // Se inicia el proceso de conversión.
-    // Primero se toma el elemento HTML,
-    // después se aplican las opciones configuradas
-    // y finalmente se descarga automáticamente el archivo PDF.
-    html2pdf()
-      .from(elemento)
-      .set(opciones)
-      .save();
+    html2pdf().from(elemento).set(opciones).save();
+  }
+
+  // Verifica autor de receta
+  esAutor(): boolean {
+    const usuarioId = localStorage.getItem('usuario_id');
+    return !!usuarioId && this.receta()?.usuario_id === usuarioId;
+  }
+
+  // Navega a edición
+  editarReceta(): void {
+    const r = this.receta();
+    if (!r) return;
+
+    this.router.navigate(['/editar-receta'], {
+      queryParams: { id: r.id }
+    });
+  }
+
+  // Solicita confirmación de eliminación
+  confirmarEliminar(): void {
+    const r = this.receta();
+    if (!r) return;
+
+    const confirmado = window.confirm(
+      `¿Seguro que quieres eliminar "${r.titulo}"? Esta acción no se puede deshacer.`
+    );
+
+    if (!confirmado) return;
+
+    this.eliminarReceta(r.id);
+  }
+
+  // Elimina receta
+  private eliminarReceta(recetaId: string): void {
+    const usuarioId = localStorage.getItem('usuario_id');
+    if (!usuarioId) return;
+
+    this.http.delete(
+      `${this.API_URL}api/recetas/${recetaId}?usuario_id=${usuarioId}`,
+      { headers: this.headers }
+    ).subscribe({
+      next: () => {
+        this.router.navigate(['/explorar']);
+      },
+      error: () => {
+        this.error.set('No se pudo eliminar la receta.');
+      }
+    });
   }
 }

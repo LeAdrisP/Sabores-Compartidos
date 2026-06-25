@@ -55,7 +55,6 @@ def solicitar_codigo(datos: SolicitarCodigo):
 
     return {"status": "success", "mensaje": "Código enviado"}
 
-
 @router.post("/recuperar/restablecer")
 def restablecer_contrasena(datos: RestablecerContrasena):
     usuario = validar_codigo(datos.correo, datos.codigo)

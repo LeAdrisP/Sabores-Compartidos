@@ -1,203 +1,100 @@
 <div class="formulario-container">
-
   <form class="formulario-receta" (ngSubmit)="publicarReceta()">
 
-
-
     <div class="error-container" *ngIf="errorMessage()" style="color: #C4622D; font-weight: 700; text-align: center; margin-bottom: 12px;">
-
       {{ errorMessage() }}
-
     </div>
-
-
 
     <div class="seccion-foto">
-
       <div class="contenedor-imagen">
-
         <img [src]="imagenPreview() || '#'" alt="Imagen del platillo">
-
         <input type="file" accept="image/*" #inputImagen hidden (change)="onImagenSeleccionada($event)">
-
         <button type="button" class="btn-cambiar-foto" (click)="inputImagen.click()">Cambiar foto</button>
-
       </div>
-
     </div>
 
-
-
     <div class="campo-grupo">
-
       <label>Nombre de la receta</label>
-
       <input type="text" [(ngModel)]="titulo" name="titulo" required>
-
     </div>
 
-
-
     <div class="campo-grupo">
-
       <label>Descripción</label>
-
       <input type="text" [(ngModel)]="descripcion" name="descripcion" required>
-
     </div>
 
-
-
     <div class="campo-grupo">
-
       <label>Tiempo aproximado</label>
-
       <input type="text" [(ngModel)]="tiempoAproximado" name="tiempo" placeholder="Ej. 40 min" required>
-
     </div>
 
-
-
     <div class="campo-grupo">
-
       <label>Dificultad</label>
-
       <select [(ngModel)]="dificultad" name="dificultad" required>
-
         <option value="" disabled selected>Selecciona una opción</option>
-
         <option value="Fácil">Fácil</option>
-
         <option value="Intermedio">Intermedio</option>
-
         <option value="Difícil">Difícil</option>
-
       </select>
-
     </div>
 
-
-
     <div class="campo-grupo">
-
       <label>Porciones</label>
-
       <select [(ngModel)]="porciones" name="porciones" required>
-
         <option [ngValue]="null" disabled selected>Selecciona</option>
-
         <option *ngFor="let n of [1,2,3,4,5,6,7,8,9,10,12]" [ngValue]="n">{{ n }}</option>
-
       </select>
-
     </div>
-
-
 
     <div class="campo-grupo">
-
       <label>Categoría</label>
-
       <input type="text" [(ngModel)]="categoria" name="categoria" placeholder="Ej. Mexicana" required>
-
     </div>
-
-
 
     <div class="campo-grupo momento-dia">
-
       <label>Momento del día</label>
-
       <select [(ngModel)]="momentoDia" name="momentodia" required>
-
         <option value="" disabled selected>Selecciona una opción</option>
-
         <option value="Desayuno">Desayuno</option>
-
         <option value="Almuerzo">Almuerzo</option>
-
         <option value="Comida principal">Comida principal</option>
-
         <option value="Merienda">Merienda</option>
-
         <option value="Cena">Cena</option>
-
       </select>
-
     </div>
-
-
 
     <div class="campo-grupo tipo-platillo">
-
       <label>Tipo de platillo</label>
-
       <input type="text" [(ngModel)]="tipoPlatillo" name="tipoplatillo" placeholder="Ej. Típico" required>
-
     </div>
 
-
-
-      <div class="seccion-bloque lista-dinamica">
-
-    <h3>Ingredientes</h3>
-
-
-
-    <div class="fila-dinamica" *ngFor="let ing of ingredientes; let i = index; trackBy: trackByIndex">
-
-      <input type="text" class="ingrediente-nombre" placeholder="Nombre"
-
-        [(ngModel)]="ing.nombre" [name]="'ing-nombre-' + i">
-
-      <input type="text" class="ingrediente-cantidad" placeholder="Cantidad"
-
-        [(ngModel)]="ing.cantidad" [name]="'ing-cantidad-' + i">
-
-      <button type="button" class="btn-eliminar" (click)="eliminarIngrediente(i)">-</button>
-
+    <div class="seccion-bloque lista-dinamica">
+      <h3>Ingredientes</h3>
+      <div class="fila-dinamica" *ngFor="let ing of ingredientes; let i = index; trackBy: trackByIndex">
+        <input type="text" class="ingrediente-nombre" placeholder="Nombre"
+          [(ngModel)]="ing.nombre" [name]="'ing-nombre-' + i">
+        <input type="text" class="ingrediente-cantidad" placeholder="Cantidad"
+          [(ngModel)]="ing.cantidad" [name]="'ing-cantidad-' + i">
+        <button type="button" class="btn-eliminar" (click)="eliminarIngrediente(i)">-</button>
+      </div>
+      <button type="button" class="btn-agregar" (click)="agregarIngrediente()">+ Agregar ingrediente</button>
     </div>
 
-
-
-    <button type="button" class="btn-agregar" (click)="agregarIngrediente()">+ Agregar ingrediente</button>
-
-  </div>
-
-
-
-  <div class="seccion-bloque lista-dinamica">
-
-    <h3>Preparación</h3>
-
-
-
-    <div class="fila-paso" *ngFor="let paso of preparacion; let i = index; trackBy: trackByIndex">
-
-      <span class="paso-numero">{{ i + 1 }}</span>
-
-      <textarea rows="2" [(ngModel)]="preparacion[i]" [name]="'paso-' + i"></textarea>
-
-      <button type="button" class="btn-eliminar" (click)="eliminarPaso(i)">-</button>
-
+    <div class="seccion-bloque lista-dinamica">
+      <h3>Preparación</h3>
+      <div class="fila-paso" *ngFor="let paso of preparacion; let i = index; trackBy: trackByIndex">
+        <span class="paso-numero">{{ i + 1 }}</span>
+        <textarea rows="2" [(ngModel)]="preparacion[i]" [name]="'paso-' + i"></textarea>
+        <button type="button" class="btn-eliminar" (click)="eliminarPaso(i)">-</button>
+      </div>
+      <button type="button" class="btn-agregar" (click)="agregarPaso()">+ Agregar paso</button>
     </div>
-
-
-
-    <button type="button" class="btn-agregar" (click)="agregarPaso()">+ Agregar paso</button>
-
-  </div>
-
-
 
     <div class="button">
-
-      <input type="submit" [value]="enviando() ? 'Publicando...' : 'Publicar'" [disabled]="enviando()">
-
+      <input type="submit"
+        [value]="enviando() ? (modoEdicion() ? 'Guardando...' : 'Publicando...') : (modoEdicion() ? 'Guardar cambios' : 'Publicar')"
+        [disabled]="enviando()">
     </div>
 
-
-
   </form>
-
 </div>

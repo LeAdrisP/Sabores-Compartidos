@@ -1,77 +1,41 @@
 <div class="recipes-screen-wrapper">
   <div class="phone-canvas">
     <div class="screen-recipes">
-      
+
       <div class="recipes-header">
         <h2>Mis recetas</h2>
-        <p class="recipe-count">24 recetas publicadas</p>
+        <p class="recipe-count">{{ recetasFiltradas().length }} receta{{ recetasFiltradas().length === 1 ? '' : 's' }} publicada{{ recetasFiltradas().length === 1 ? '' : 's' }}</p>
       </div>
 
       <div class="search-box-container">
         <div class="search-bar">
           <span class="search-icon">🔍</span>
-          <input type="text" placeholder="Buscar receta..." />
+          <input type="text" placeholder="Buscar receta..."
+            [ngModel]="textoBusqueda()" (ngModelChange)="textoBusqueda.set($event)" />
         </div>
       </div>
 
       <div class="categories-wrapper">
         <div class="categories-scroll">
-          <span class="category-pill active">Todas</span>
-          <span class="category-pill">Desayunos</span>
-          <span class="category-pill">Comidas</span>
-          <span class="category-pill">Cenas</span>
-          <span class="category-pill">Postres</span>
-        </div>
-        <div class="scrollbar-indicator">
-          <span class="arrow-left">◀</span>
-          <div class="track"><div class="thumb"></div></div>
-          <span class="arrow-right">▶</span>
+          <span class="category-pill"
+            *ngFor="let cat of categorias"
+            [class.active]="categoriaActiva() === cat"
+            (click)="seleccionarCategoria(cat)">
+            {{ cat }}
+          </span>
         </div>
       </div>
 
       <div class="recipes-container-body">
-        
-        <div class="recipe-card-featured" (click)="verDetalleReceta()">
-          <div class="card-img-placeholder" style="background: #FFF3E0;"></div>
-          <div class="card-content">
-            <div class="card-header-row">
-              <h3 class="recipe-title">Tlayudas oaxaqueñas</h3>
-              <button class="btn-more-options" (click)="$event.stopPropagation()">•••</button>
-            </div>
-            <p class="recipe-author">por <span class="author-name">Ana García</span> · hace 2 días</p>
-            <div class="recipe-meta-tags">
-              <span class="tag-difficulty medio">Medio</span>
-              <span class="meta-item">⏱ 40 min</span>
-              <span class="meta-item">👤 4 porciones</span>
-              <span class="meta-likes">♥ 34</span>
-            </div>
-          </div>
-        </div>
 
-        <div class="recipes-secondary-grid">
-          
-          <div class="recipe-card-small" (click)="verDetalleReceta()">
-            <div class="card-img-placeholder" style="background: #E8F5E9;"></div>
-            <div class="card-content">
-              <h4 class="recipe-title">Ensalada de nopales</h4>
-              <div class="recipe-meta-tags">
-                <span class="tag-difficulty facil">Fácil</span>
-                <span class="meta-item">⏱ 20 min</span>
-              </div>
-            </div>
-          </div>
+        <p *ngIf="cargando()" style="text-align:center; padding: 24px;">Cargando tus recetas...</p>
 
-          <div class="recipe-card-small" (click)="verDetalleReceta()">
-            <div class="card-img-placeholder" style="background: #FFF8E1;"></div>
-            <div class="card-content">
-              <h4 class="recipe-title">Flan de cajeta</h4>
-              <div class="recipe-meta-tags">
-                <span class="tag-difficulty medio">Medio</span>
-                <span class="meta-item">⏱ 90 min</span>
-              </div>
-            </div>
-          </div>
+        <p *ngIf="!cargando() && recetasFiltradas().length === 0" style="text-align:center; color:#999; padding: 24px;">
+          No se encontraron recetas con ese filtro.
+        </p>
 
+        <div class="recetas-grid" *ngIf="!cargando() && recetasFiltradas().length > 0">
+          <app-card *ngFor="let receta of recetasFiltradas()" [receta]="receta"></app-card>
         </div>
 
       </div>

@@ -13,10 +13,6 @@ except ValueError:
 db = firestore.client()
 
 def buscar_usuario_por_correo(correo: str) -> dict | None: 
-    """
-    Busca en tiempo real dentro de Firestore si ya existe una cuenta con ese correo
-    para evitar registros duplicados.
-    """
     try:
         usuarios_ref = db.collection("usuarios")
         query = usuarios_ref.where("correo", "==", correo).limit(1).stream()
@@ -31,12 +27,7 @@ def buscar_usuario_por_correo(correo: str) -> dict | None:
         print(f"Error al buscar usuario en Firestore: {e}")
         return None
 
-
 def registrar_nuevo_usuario(correo: str, contrasena: str, confirmar_contrasena: str) -> dict | None:
-    """
-    Guarda de manera definitiva un nuevo usuario en la colección de Firebase
-    con los campos estructurados exactamente como strings.
-    """
     try:
         if buscar_usuario_por_correo(correo) is not None:
             print("El correo ya se encuentra registrado.")
@@ -88,10 +79,6 @@ def actualizar_usuario(usuario_id: str, datos: dict) -> bool:
         return False
 
 def generar_y_guardar_codigo(correo: str) -> str | None:
-    """
-    Genera un código de 6 dígitos, lo guarda en Firestore junto al usuario
-    con su fecha de expiración (10 minutos), y lo retorna para enviarlo por correo.
-    """
     usuario = buscar_usuario_por_correo(correo)
     if usuario is None:
         return None
@@ -106,12 +93,7 @@ def generar_y_guardar_codigo(correo: str) -> str | None:
 
     return codigo
 
-
 def validar_codigo(correo: str, codigo_ingresado: str) -> dict | None:
-    """
-    Verifica que el código ingresado coincida y no haya expirado.
-    Retorna los datos del usuario si es válido, None si no.
-    """
     usuario = buscar_usuario_por_correo(correo)
     if usuario is None:
         return None
@@ -131,11 +113,7 @@ def validar_codigo(correo: str, codigo_ingresado: str) -> dict | None:
 
     return usuario
 
-
 def actualizar_contrasena(usuario_id: str, nueva_contrasena: str) -> bool:
-    """
-    Actualiza la contraseña del usuario y limpia el código de verificación usado.
-    """
     try:
         db.collection("usuarios").document(usuario_id).update({
             "contrasena": nueva_contrasena,
@@ -148,10 +126,6 @@ def actualizar_contrasena(usuario_id: str, nueva_contrasena: str) -> bool:
         return False   
 
 def validar_contrasena_actual(usuario_id: str, contrasena: str) -> bool:
-    """
-    Verifica que la contraseña ingresada coincida con la almacenada
-    para el usuario, usado antes de permitir el cambio de contraseña.
-    """
     try:
         doc = db.collection("usuarios").document(usuario_id).get()
         if not doc.exists:
@@ -162,12 +136,7 @@ def validar_contrasena_actual(usuario_id: str, contrasena: str) -> bool:
         print(f"Error al validar contraseña: {e}")
         return False
 
-
 def cambiar_contrasena(usuario_id: str, nueva_contrasena: str) -> bool:
-    """
-    Actualiza la contraseña del usuario directamente desde Editar Perfil,
-    sin requerir código de verificación por correo.
-    """
     try:
         db.collection("usuarios").document(usuario_id).update({
             "contrasena": nueva_contrasena
@@ -178,10 +147,6 @@ def cambiar_contrasena(usuario_id: str, nueva_contrasena: str) -> bool:
         return False
 
 def generar_codigo_verificacion_correo(usuario_id: str) -> str | None:
-    """
-    Genera un código de 6 dígitos para verificar el correo del usuario
-    y lo guarda en Firestore con 10 minutos de expiración.
-    """
     try:
         doc = db.collection("usuarios").document(usuario_id).get()
         if not doc.exists:
@@ -200,12 +165,7 @@ def generar_codigo_verificacion_correo(usuario_id: str) -> str | None:
         print(f"Error al generar código de verificación de correo: {e}")
         return None
 
-
 def validar_codigo_verificacion_correo(usuario_id: str, codigo_ingresado: str) -> bool:
-    """
-    Verifica que el código ingresado coincida con el guardado y no haya expirado.
-    Si es válido, marca el correo como verificado.
-    """
     try:
         doc = db.collection("usuarios").document(usuario_id).get()
         if not doc.exists:

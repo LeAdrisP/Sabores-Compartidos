@@ -1,52 +1,94 @@
-// Se importa el decorador Component y la función inject desde Angular.
-// Component permite definir un componente.
-// inject permite obtener servicios sin necesidad de utilizar un constructor.
-import { Component, inject } from '@angular/core';
-
-// Se importa CommonModule para disponer de directivas básicas como *ngIf y *ngFor.
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// Se importa Router para permitir la navegación entre las diferentes páginas de la aplicación.
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Card, RecetaCard } from '../../../../shared/components/card/card';
 
-// Decorador que define la configuración del componente.
+interface RecetaConCategoria extends RecetaCard {
+  categoria?: string;
+  momento_dia?: string;
+}
+
 @Component({
-
-  // Nombre con el cual este componente puede ser utilizado dentro de otras plantillas.
   selector: 'app-mis-recetas-page',
-
-  // Indica que el componente es independiente y no necesita pertenecer a un módulo.
   standalone: true,
-
-  // Módulos necesarios para el funcionamiento del componente.
-  imports: [CommonModule],
-
-  // Archivo HTML asociado al componente.
+  imports: [CommonModule, FormsModule, Card],
   templateUrl: './mis-recetas-page.component.html',
-
-  // Archivo de estilos asociado al componente.
   styleUrls: ['./mis-recetas-page.component.scss']
 })
-export class MisRecetasPageComponent {
-
-  // En futuras versiones aquí podrían declararse arreglos o interfaces
-  // para almacenar las recetas del usuario y trabajar con datos dinámicos.
-
-  // Se obtiene una instancia del servicio Router.
-  // Este servicio permite cambiar entre las distintas rutas de la aplicación.
+export class MisRecetasPageComponent implements OnInit {
   private router = inject(Router);
+  private http = inject(HttpClient);
 
-  /**
-   * Método encargado de abrir la vista detallada de una receta.
-   * Actualmente redirige a la pantalla correspondiente al detalle de receta.
-   */
-  verDetalleReceta(): void {
+  private readonly API_URL = 'https://remote-boxcar-morbidity.ngrok-free.dev/';
+  private headers = new HttpHeaders({ 'ngrok-skip-browser-warning': 'true' });
 
-    // Se muestra un mensaje en consola para fines de depuración.
-    // Permite verificar que el método fue ejecutado correctamente.
-    console.log('Navegando a la vista extendida de la preparación...');
+  recetas = signal<RecetaConCategoria[]>([]);
+  cargando = signal(true);
 
-    // Se realiza la navegación hacia la ruta correspondiente al detalle de la receta.
-    this.router.navigate(['/detalle-receta']);
+  textoBusqueda = signal('');
+
+  categoriaActiva = signal('Todas');
+
+  readonly categorias = ['Todas', 'Desayunos', 'Comidas', 'Cenas', 'Postres'];
+
+  private readonly mapaCategorias: Record<string, string[]> = {
+    'Desayunos': ['Desayuno'],
+    'Comidas': ['Almuerzo', 'Comida principal'],
+    'Cenas': ['Cena'],
+    'Postres': ['Merienda']
+  };
+
+  recetasFiltradas = computed(() => {
+    let resultado = this.recetas();
+
+    const categoria = this.categoriaActiva();
+    if (categoria !== 'Todas') {
+      const valoresPermitidos = this.mapaCategorias[categoria] || [];
+      resultado = resultado.filter(r => valoresPermitidos.includes(r.momento_dia || ''));
+    }
+
+    const texto = this.textoBusqueda().trim().toLowerCase();
+    if (texto) {
+      resultado = resultado.filter(r => r.titulo.toLowerCase().includes(texto));
+    }
+
+    return resultado;
+  });
+
+  // Carga recetas del usuario
+  ngOnInit(): void {
+    this.cargarMisRecetas();
+  }
+
+  // Obtiene recetas
+  cargarMisRecetas(): void {
+    const usuarioId = localStorage.getItem('usuario_id');
+    if (!usuarioId) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.cargando.set(true);
+
+    this.http.get<any>(
+      `${this.API_URL}api/recetas/usuario/${usuarioId}`,
+      { headers: this.headers }
+    ).subscribe({
+      next: (data) => {
+        this.recetas.set(data.recetas || []);
+        this.cargando.set(false);
+      },
+      error: () => {
+        console.error('No se pudieron cargar tus recetas');
+        this.cargando.set(false);
+      }
+    });
+  }
+
+  // Filtra categoría
+  seleccionarCategoria(categoria: string): void {
+    this.categoriaActiva.set(categoria);
   }
 }

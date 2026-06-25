@@ -9,10 +9,6 @@ EMAIL_REMITENTE = os.getenv("EMAIL_REMITENTE")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 def enviar_codigo_verificacion(destinatario: str, codigo: str) -> bool:
-    """
-    Envía un correo con el código de verificación de 6 dígitos
-    usando el servidor SMTP de Gmail.
-    """
     try:
         mensaje = MIMEText(f"Tu código de verificación es: {codigo}\n\nExpira en 10 minutos.")
         mensaje["Subject"] = "Código de verificación - Sabores Compartidos"

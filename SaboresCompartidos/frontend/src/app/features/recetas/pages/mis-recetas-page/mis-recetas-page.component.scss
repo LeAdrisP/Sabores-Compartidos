@@ -83,7 +83,7 @@
   }
 }
 
-// CATEGORÍAS Y SCROLLBAR DE MAQUETA
+// CATEGORÍAS
 .categories-wrapper {
   background: #FFFFFF;
   padding: 12px 0 16px;
@@ -120,154 +120,16 @@
   }
 }
 
-.scrollbar-indicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 24px;
-  color: #8A8880;
-  font-size: 12px;
-
-  .track {
-    flex: 1;
-    height: 6px;
-    background: rgba(44, 44, 42, 0.1);
-    border-radius: 3px;
-    position: relative;
-    
-    .thumb {
-      width: 40%;
-      height: 100%;
-      background: #8A8880;
-      border-radius: 3px;
-    }
-  }
-  .arrow-left, .arrow-right { cursor: pointer; }
-}
-
-// CONTENEDOR DE TARJETAS
+// CONTENEDOR PRINCIPAL DEL CUERPO
 .recipes-container-body {
   padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
-// TARJETA DESTACADA (PRINCIPAL)
-.recipe-card-featured {
-  background: #FFFFFF;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 0.5px solid rgba(44, 44, 42, 0.12);
-  display: flex;
-  flex-direction: column;
-
-  .card-img-placeholder {
-    height: 180px;
-    width: 100%;
-  }
-
-  .card-content {
-    padding: 16px 20px 20px;
-  }
-
-  .card-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .recipe-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: #2C2C2A;
-    font-weight: 700;
-  }
-
-  .btn-more-options {
-    background: none;
-    border: none;
-    font-size: 16px;
-    color: #2C2C2A;
-    cursor: pointer;
-  }
-
-  .recipe-author {
-    font-size: 13px;
-    color: #8A8880;
-    margin-top: 4px;
-    
-    .author-name { color: #C4622D; font-weight: 700; }
-  }
-
-  .recipe-meta-tags {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 12px;
-    font-size: 12px;
-    font-weight: 500;
-    color: #8A8880;
-  }
-}
-
-// BADGES DE DIFICULTAD
-.tag-difficulty {
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 700;
-  
-  &.medio { background: #FFF3E0; color: #E65100; }
-  &.facil { background: #E8F5E9; color: #1B5E20; }
-}
-
-.meta-likes {
-  margin-left: auto; // Empuja el corazón a la derecha
-  color: #C4622D;
-  font-weight: 700;
-}
-
-// GRID SECUNDARIO EN DOS COLUMNAS (MÓVIL)
-.recipes-secondary-grid {
+// GRID DE TARJETAS REALES (app-card)
+.recetas-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-.recipe-card-small {
-  background: #FFFFFF;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 0.5px solid rgba(44, 44, 42, 0.12);
-  display: flex;
-  flex-direction: column;
-
-  .card-img-placeholder {
-    height: 110px;
-    width: 100%;
-  }
-
-  .card-content {
-    padding: 12px;
-  }
-
-  .recipe-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 14px;
-    color: #2C2C2A;
-    font-weight: 700;
-    line-height: 1.3;
-  }
-
-  .recipe-meta-tags {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-    font-size: 11px;
-    color: #8A8880;
-  }
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
 }
 
 .bottom-spacer { height: 110px; }
@@ -316,30 +178,10 @@
     border-radius: 0 0 16px 16px;
     border-bottom: 1px solid rgba(44, 44, 42, 0.05);
     padding: 32px;
-    
-    // Convertimos la galería completa en un grid simétrico de 3 columnas en PC
-    display: grid;
+  }
+
+  .recetas-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  // En PC la tarjeta destacada se acopla visualmente al tamaño de las demás
-  .recipe-card-featured {
-    grid-column: span 1; // Deja de comerse toda la fila
-    
-    .card-img-placeholder { height: 140px; }
-    .recipe-title { font-size: 16px; }
-    .recipe-meta-tags { font-size: 11px; }
-  }
-
-  // El subgrid de dos columnas se disuelve para heredar las 3 columnas principales
-  .recipes-secondary-grid {
-    display: contents; 
-  }
-
-  .recipe-card-small {
-    .card-img-placeholder { height: 140px; }
-    .recipe-title { font-size: 16px; }
   }
 
   .bottom-spacer { height: 40px; }

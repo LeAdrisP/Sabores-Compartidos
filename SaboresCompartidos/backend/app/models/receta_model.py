@@ -1,11 +1,9 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
-
 class Ingrediente(BaseModel):
     nombre: str
     cantidad: str
-
 
 class RecetaCreate(BaseModel):
     titulo: str
@@ -19,7 +17,6 @@ class RecetaCreate(BaseModel):
     ingredientes: List[Ingrediente]
     preparacion: List[str]
     usuario_id: str
-
 
 class Receta(RecetaCreate):
     id: str

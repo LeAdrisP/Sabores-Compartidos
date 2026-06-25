@@ -1,9 +1,8 @@
 <mat-card class="card" appearance="outlined" (click)="verDetalle()">
 
   <mat-card-header class="card-header">
-
     <mat-card-actions class="card-actions">
-      <button matIconButton class="star-button" (click)="$event.stopPropagation()">
+      <button matIconButton class="star-button" [class.favorito]="esFavorito()" (click)="toggleFavorito($event)">
         <mat-icon aria-hidden="false" aria-label="star" fontIcon="star"></mat-icon>
       </button>
     </mat-card-actions>
@@ -11,17 +10,14 @@
     <img mat-card-image class="imagen-receta"
       [src]="receta.imagen_url || imagenDefault"
       alt="Imagen de la receta">
-
   </mat-card-header>
 
   <mat-card-content class="card-content">
     <mat-card-title>{{ receta.titulo }}</mat-card-title>
     <mat-card-subtitle>{{ receta.autor_nombre }} | {{ tiempoRelativo() }}</mat-card-subtitle>
 
-    <mat-chip-set class="card-chip-set" aria-label="información adicional">
-      <mat-chip>
-        {{ receta.dificultad }}
-      </mat-chip>
+    <mat-chip-set class="card-chip-set" aria-label="información adicional" [disabled]="true">
+      <mat-chip>{{ receta.dificultad }}</mat-chip>
       <mat-chip>
         <mat-icon aria-hidden="false" aria-label="tiempo" fontIcon="timer"></mat-icon>
         {{ receta.tiempo_aproximado }}
@@ -31,24 +27,15 @@
         {{ receta.porciones }}
       </mat-chip>
     </mat-chip-set>
-
   </mat-card-content>
 
   <mat-card-footer class="card-footer">
-
     <mat-card-actions class="card-actions">
-      <button matIconButton (click)="$event.stopPropagation()">
+      <button matIconButton (click)="toggleLike($event)" [class.liked]="yaDioLike()">
         <mat-icon aria-hidden="false" aria-label="me gusta" fontIcon="favorite"></mat-icon>
       </button>
+      <span class="likes-count">{{ contadorLikes() }}</span>
 
-      <button matIconButton (click)="irAComentarios($event)">
-        <mat-icon aria-hidden="false" aria-label="comentario" fontIcon="comment"></mat-icon>
-      </button>
-
-      <button matIconButton (click)="$event.stopPropagation()">
-        <mat-icon aria-hidden="false" aria-label="compartir" fontIcon="share"></mat-icon>
-      </button>
     </mat-card-actions>
-
   </mat-card-footer>
 </mat-card>

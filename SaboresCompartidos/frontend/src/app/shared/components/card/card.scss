@@ -60,3 +60,18 @@
 
   cursor: pointer;
 }
+
+.liked mat-icon {
+  color: #e53935;
+}
+
+.likes-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2C2C2A;
+  margin-right: 8px;
+}
+
+.star-button.favorito mat-icon {
+  color: #FFC107;
+}
